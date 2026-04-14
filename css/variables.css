@@ -1,0 +1,148 @@
+/* ===================================================
+   variables.css — Tokens de design centralisés
+   ⚠️  Pour personnaliser l'interface, modifier
+       uniquement ce fichier. Aucune couleur ne doit
+       être codée en dur dans les composants.
+   =================================================== */
+
+:root {
+
+  /* ----------------------------------------
+     COULEURS PRINCIPALES
+     ---------------------------------------- */
+  --color-primary:         #6B4EFF;   /* Violet signature Compl-IA  */
+  --color-primary-dark:    #5438D8;   /* Survol, états actifs        */
+  --color-primary-light:   #8B72FF;   /* Teintes claires primaires   */
+  --color-primary-100:     #EDE9FF;   /* Fonds teintés primaires     */
+  --color-primary-50:      #F5F3FF;   /* Fonds très légers           */
+
+  /* ----------------------------------------
+     FONDS ET SURFACES
+     ---------------------------------------- */
+  --color-bg:              #FAFAFA;   /* Fond global de l'app        */
+  --color-bg-secondary:    #F4F4F7;   /* Zones secondaires           */
+  --color-card:            #FFFFFF;   /* Fond des cards              */
+  --color-sidebar:         #14112A;   /* Fond de la barre latérale   */
+  --color-sidebar-item:    rgba(255,255,255,0.06);
+  --color-sidebar-hover:   rgba(255,255,255,0.10);
+  --color-sidebar-active:  rgba(107,78,255,0.28);
+  --color-overlay:         rgba(20,17,42,0.55); /* Fond des modales  */
+
+  /* ----------------------------------------
+     TEXTES
+     ---------------------------------------- */
+  --color-text-primary:    #1A1830;
+  --color-text-secondary:  #64647A;
+  --color-text-muted:      #9999B3;
+  --color-text-sidebar:    #C4BEE0;
+  --color-text-white:      #FFFFFF;
+
+  /* ----------------------------------------
+     NIVEAUX DE RISQUE
+     Risque élevé : rouge — Risque moyen : orange
+     Suggestion : vert
+     ---------------------------------------- */
+  --color-risk-high:         #FF4444;
+  --color-risk-high-bg:      #FFF5F5;
+  --color-risk-high-border:  #FFCCCC;
+
+  --color-risk-medium:       #FF8C00;
+  --color-risk-medium-bg:    #FFFBF5;
+  --color-risk-medium-border:#FFD9AA;
+
+  --color-suggestion:        #00C48C;
+  --color-suggestion-bg:     #F0FDF9;
+  --color-suggestion-border: #AAEEDD;
+
+  /* ----------------------------------------
+     STATUTS DES SOUMISSIONS
+     ---------------------------------------- */
+  --color-status-valide:         #00C48C;
+  --color-status-valide-bg:      #EAFAF4;
+  --color-status-en-cours:       #6B4EFF;
+  --color-status-en-cours-bg:    #EDE9FF;
+  --color-status-retravailler:   #FF4444;
+  --color-status-retravailler-bg:#FFF5F5;
+
+  /* ----------------------------------------
+     BORDURES
+     ---------------------------------------- */
+  --color-border:          #E8E8F0;
+  --color-border-light:    #F0F0F6;
+  --color-border-focus:    #6B4EFF;
+
+  /* ----------------------------------------
+     OMBRES
+     ---------------------------------------- */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:  0 4px 16px rgba(107,78,255,0.10), 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-lg:  0 8px 32px rgba(107,78,255,0.15), 0 4px 8px rgba(0,0,0,0.06);
+  --shadow-xl:  0 16px 48px rgba(107,78,255,0.18), 0 8px 16px rgba(0,0,0,0.08);
+  --shadow-card:0 0 0 1px var(--color-border), 0 2px 4px rgba(0,0,0,0.04);
+
+  /* ----------------------------------------
+     RAYONS DE BORDURE
+     ---------------------------------------- */
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   20px;
+  --radius-2xl:  28px;
+  --radius-full: 9999px;
+
+  /* ----------------------------------------
+     TYPOGRAPHIE
+     ---------------------------------------- */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-xs:   11px;
+  --font-sm:   13px;
+  --font-base: 14px;
+  --font-md:   15px;
+  --font-lg:   17px;
+  --font-xl:   20px;
+  --font-2xl:  24px;
+  --font-3xl:  30px;
+  --font-4xl:  38px;
+
+  --weight-normal:    400;
+  --weight-medium:    500;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+  --weight-extrabold: 800;
+
+  /* ----------------------------------------
+     ESPACEMENTS (échelle de 4px)
+     ---------------------------------------- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* ----------------------------------------
+     DIMENSIONS LAYOUT
+     ---------------------------------------- */
+  --sidebar-width:   240px;
+  --header-height:   60px;
+
+  /* ----------------------------------------
+     TRANSITIONS
+     ---------------------------------------- */
+  --transition-fast:   120ms ease;
+  --transition-base:   200ms ease;
+  --transition-slow:   350ms ease;
+  --transition-spring: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ----------------------------------------
+     Z-INDEX
+     ---------------------------------------- */
+  --z-dropdown: 100;
+  --z-modal:    200;
+  --z-toast:    300;
+}
