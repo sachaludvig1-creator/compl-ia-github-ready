@@ -57,10 +57,14 @@ window.navigate = function(nomEcran, params = {}) {
     /* Initialisation des gestionnaires d'événements */
     if (ecran.init) ecran.init(params);
 
-    /* Bug 1: Switch Profil Global */
-    document.getElementById('btn-switch-profil')?.addEventListener('click', () => {
-      window.AppState.currentUser = null;
-      window.navigate('Login');
+    /* Logout (Switch Profil Global) */
+    document.getElementById('btn-switch-profil')?.addEventListener('click', async () => {
+      if (window.FirebaseService && window.FirebaseService.auth?.currentUser) {
+        await window.FirebaseService.logout();
+      } else {
+        window.AppState.currentUser = null;
+        window.navigate('Login');
+      }
     });
 
     /* Défilement en haut de page */
@@ -177,14 +181,49 @@ window.showToast = function(message, duree = 4000) {
 const initApp = async () => {
   /* Initialisation de Firebase */
   if (window.FirebaseService) {
-    await window.FirebaseService.init();
+    const isOk = await window.FirebaseService.init();
+    
+    // Fallback load
+    window.AppState.submissions = JSON.parse(JSON.stringify(SOUMISSIONS_INITIALES));
+
+    if (isOk) {
+      window.FirebaseService.onAuthStateChanged(async (user) => {
+        if (user) {
+          const doc = await window.FirebaseService.fetchUserDoc(user.uid);
+          if (doc && doc.role && doc.role_type) {
+             window.AppState.currentUser = doc;
+             window.navigate('Dashboard');
+          } else {
+             window.AppState.currentUser = null;
+             if (window.LoginScreen?.state) {
+               window.LoginScreen.state.mode = 'signup';
+               window.LoginScreen.state.step = 2; // Reprise d'onboarding
+             }
+             window.navigate('Login');
+          }
+        } else {
+          window.AppState.currentUser = null;
+          if (window.LoginScreen?.state) {
+             window.LoginScreen.state.mode = 'signup';
+             window.LoginScreen.state.step = 1;
+             window.LoginScreen.state.loading = false;
+          }
+          if (window.AppState.currentScreen !== 'Login') {
+             window.navigate('Login');
+          } else if (document.getElementById('ob-container')) {
+             window.LoginScreen._reRender();
+          } else {
+             window.navigate('Login');
+          }
+        }
+      });
+    } else {
+      window.navigate('Login');
+    }
+  } else {
+    window.AppState.submissions = JSON.parse(JSON.stringify(SOUMISSIONS_INITIALES));
+    window.navigate('Login');
   }
-
-  /* Charge les soumissions fictives initiales (fallback local) */
-  window.AppState.submissions = JSON.parse(JSON.stringify(SOUMISSIONS_INITIALES));
-
-  /* Lance l'écran de connexion */
-  window.navigate('Login');
 
   console.info('🚀 [Compl-IA] Application démarrée — Mode Firebase activé');
 };

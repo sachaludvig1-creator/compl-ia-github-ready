@@ -533,18 +533,7 @@ window.ResultsScreen = {
       const body = document.getElementById('results-body');
       
       /* Appel de la V2 */
-      const apiKey = (window.process && window.process.env && window.process.env.REACT_APP_ANTHROPIC_API_KEY) || (window.AppState.apiKey || '');
       try {
-        if (!apiKey) throw new Error("Pas de clé API");
-        
-        let Anthropic;
-        try {
-          const mod = await import("https://esm.sh/@anthropic-ai/sdk");
-          Anthropic = mod.default;
-        } catch (err) {
-          throw new Error("Impossible de charger le SDK Anthropic");
-        }
-
         const sysPrompt = "Tu es un expert en réglementation cosmétique européenne (CE 1223/2009 et ARPP). Analyse ce contenu et retourne UNIQUEMENT un JSON valide {score, problemes:[{phrase, severite, explication, reglement, reformulations:[]}], points_positifs:[], temps_economise}.";
         
         const response = await fetch("/api/analyze", {
