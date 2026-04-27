@@ -578,8 +578,39 @@ window.ResultsScreen = {
         const brandRules = localStorage.getItem('complia_brand_rules') || '';
         const knowledgeLocal = brandRules ? `\nRègles internes de la marque (À RESPECTER STRICTEMENT) :\n${brandRules}\n` : '';
 
-        const sysPrompt = `Tu es un expert en réglementation cosmétique. Analyse ce contenu pour les marchés : ${paysSelectionnes}.${knowledgeLocal} Retourne UNIQUEMENT un JSON valide {score, problemes:[{phrase, severite, explication, reglement, reformulations:[]}], points_positifs:[], temps_economise}.`;
+        const prevScore = formData.analyse?.score ?? formData.analyse?.scoreConformite ?? 100;
+        const prevProblems = formData.analyse?.problemes ?? [];
+        const prevProblemsList = prevProblems.map(p => `- [${p.severite}] ${p.phrase || p.fragment}`).join('\n');
+
+        const sysPrompt = `Tu es un expert en réglementation cosmétique. Analyse ce contenu pour les marchés : ${paysSelectionnes}.${knowledgeLocal}
+
+Tu analyses une version améliorée d'un contenu cosmétique.
+La version précédente avait un score de ${prevScore}/100.
+Les problèmes suivants avaient été identifiés : 
+${prevProblemsList || 'Aucun'}
+
+Applique strictement ces règles de scoring :
+- Si un terme CRITIQUE (score 9-10) a été supprimé ou reformulé → +20 à +25 points
+- Si un terme ÉLEVÉ (score 7-8) a été corrigé → +12 à +15 points
+- Si un terme MODÉRÉ (score 5-6) a été corrigé → +8 à +10 points
+- Si un terme FAIBLE (score 3-4) a été corrigé → +4 à +5 points
+- Si aucun problème identifié précédemment n'a été corrigé → score identique ou -2 maximum
+- Si de nouveaux problèmes apparaissent dans la V2 → appliquer les malus normalement
+
+Le score doit refléter RÉELLEMENT l'effort de correction.
+Un contenu qui a supprimé 2 termes CRITIQUES doit passer de ~30/100 à ~75/100 minimum.
+
+Retourne UNIQUEMENT un JSON valide {score, problemes:[{phrase, severite, explication, reglement, reformulations:[]}], points_positifs:[], temps_economise}.`;
         
+        const userPrompt = `Version précédente (V${currentNextVersion - 1}) :
+Score : ${prevScore}/100
+Problèmes identifiés : 
+${prevProblemsList || 'Aucun'}
+Texte V${currentNextVersion - 1} : ${this._texteOriginal}
+
+Nouvelle version à analyser (V${currentNextVersion}) :
+Texte : ${newText}`;
+
         const response = await fetch("/api/analyze", {
           method: "POST",
           headers: {
@@ -589,7 +620,7 @@ window.ResultsScreen = {
             model: "claude-sonnet-4-20250514",
             max_tokens: 1024,
             system: sysPrompt,
-            messages: [{ role: "user", content: "Analyse v2 : " + newText }]
+            messages: [{ role: "user", content: userPrompt }]
           })
         });
 
@@ -908,8 +939,10 @@ window.ResultsScreen = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-              promptSystem: "Tu es l'assistant Légal de Compl-IA. Sois extrèmement bref (2 lignes max) et précis sur les lois cosmétiques européennes.", 
-              text: txt, pays: 'Chatbot' 
+              model: "claude-sonnet-4-20250514",
+              max_tokens: 500,
+              system: "Tu es l'assistant Légal de Compl-IA. Sois extrêmement bref (2 lignes max) et précis sur les lois cosmétiques européennes ou le contrôle de conformité.", 
+              messages: [{ role: "user", content: txt }]
             })
           });
           document.getElementById('cb-loading')?.remove();

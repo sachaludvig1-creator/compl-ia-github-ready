@@ -452,13 +452,14 @@
 
 .dashboard-table th {
   padding: var(--sp-3) var(--sp-4);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: var(--weight-medium);
   text-transform: uppercase;
   color: var(--color-text-muted);
   border-bottom: 2px solid var(--color-bg-secondary);
   letter-spacing: 0.5px;
   background: #FFF;
+  white-space: nowrap;
 }
 
 .dashboard-table td {
