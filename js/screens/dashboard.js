@@ -21,9 +21,9 @@ window.DashboardScreen = {
           <!-- En-tête de page -->
           <div class="page-header">
             <div class="page-header-left">
-              <h1>${isJuridique ? 'File de validation' : 'Tableau de bord'}</h1>
+              <h1>${isJuridique ? 'Contenus en attente de validation' : 'Tableau de bord'}</h1>
               <p>${isJuridique
-                ? 'Soumissions en attente de validation réglementaire'
+                ? 'Examinez et validez les propositions de vos équipes'
                 : 'Suivez vos contenus soumis et leur statut de validation.'
               }</p>
             </div>
@@ -56,12 +56,14 @@ window.DashboardScreen = {
               <table class="dashboard-table">
                 <thead>
                   <tr>
-                    <th>Titre</th>
+                    <th>Contenu & Périmètre</th>
+                    <th>Soumis le</th>
+                    <th>Retour souhaité</th>
+                    <th>Audit IA</th>
                     <th>Statut</th>
-                    <th>Risque</th>
-                    <th>Date</th>
-                    ${isJuridique ? '<th>Soumis par</th>' : ''}
-                    <th style="width: 180px;"></th>
+                    <th>Validé le</th>
+                    ${isJuridique ? '<th>Affecté par</th>' : ''}
+                    <th style="width: 160px;"></th>
                   </tr>
                 </thead>
                 <tbody id="table-body">
@@ -211,66 +213,75 @@ window.DashboardScreen = {
     if (currentScore <= 40) scoreColor = 'var(--color-risk-high)';
     else if (currentScore <= 70) scoreColor = 'var(--color-risk-medium)';
 
-    /* Formater la date en string "13 avr. 2026" si elle est type jj/mm/aaaa ou YYYY-MM-DD */
-    let formattedDate = sub.dateShort || sub.creeLe || '';
-    if (formattedDate.includes('/')) {
-      const parts = formattedDate.split('/');
-      if (parts.length === 3) {
+    /* Formater une date YYYY-MM-DD en string FR court */
+    const formatDateStr = (dateStr) => {
+      if (!dateStr) return '';
+      if (dateStr.includes('/')) {
+        const parts = dateStr.split('/');
+        if (parts.length === 3) {
+           const mNames = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+           const d = parseInt(parts[0],10); const m = parseInt(parts[1],10); const y = parts[2];
+           return `${d} ${mNames[m-1]} ${y}`;
+        }
+      } else if (dateStr.includes('-')) {
          const mNames = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
-         const d = parseInt(parts[0],10); const m = parseInt(parts[1],10); const y = parts[2];
-         formattedDate = `${d} ${mNames[m-1]} ${y}`;
+         const parts = dateStr.split('-');
+         if (parts.length === 3) {
+           const d = parseInt(parts[2],10); const m = parseInt(parts[1],10); const y = parts[0];
+           return `${d} ${mNames[m-1]} ${y}`;
+         }
       }
-    } else if (formattedDate.includes('-')) {
-       const mNames = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
-       const parts = formattedDate.split('-');
-       if (parts.length === 3) {
-         const d = parseInt(parts[2],10); const m = parseInt(parts[1],10); const y = parts[0];
-         formattedDate = `${d} ${mNames[m-1]} ${y}`;
-       }
-    }
+      return dateStr;
+    };
+
+    let formattedDate = formatDateStr(sub.dateShort || sub.creeLe);
+    let deadlineDateStr = formatDateStr(sub.deadline);
+
+    let submitter = sub.soumitParLabel || "Camille Fouet (Marketing)";
 
     return `
       <tr class="table-row-clickable" data-sub-id="${sub.id}">
         <td>
-          <div class="cell-title">
-            <span class="cell-title-main" style="max-width: 320px; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${sub.titre}</span>
+          <div class="cell-title" style="margin-bottom:4px;">
+            <span class="cell-title-main" style="max-width: 250px; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${sub.titre}</span>
             <span class="cell-title-sub">${sub.categorie} · ${sub.pays || 'France'}</span>
           </div>
+        </td>
+        <td><span class="cell-date">${formattedDate || 'Aujourd\'hui'}</span></td>
+        <td>
+          ${deadlineDateStr ? `<span style="color:#D97706; font-weight:600; font-size:12px; background:#FEF3C7; padding:4px 8px; border-radius:4px;">⏱ ${deadlineDateStr}</span>` : '<span style="color:#9CA3AF; font-size:12px;">Non précisé</span>'}
+        </td>
+        <td>
+           <span style="display:inline-block; padding:4px 12px; border-radius:100px; background:${currentScore <= 40 ? '#FEE2E2' : currentScore <= 70 ? '#FEF3C7' : '#D1FAE5'}; color:${currentScore <= 40 ? '#991B1B' : currentScore <= 70 ? '#92400E' : '#065F46'}; font-weight:600; font-size:11px;">
+             ${sub.version > 1 ? `V${sub.version} : ` : ''}${currentScore <= 40 ? 'Risque Élevé' : currentScore <= 70 ? 'Conforme avec réserve' : 'Conforme'}
+           </span>
         </td>
         <td>
           <span class="badge ${statutDef.cssClass}">
              <span style="color: ${statutDef.dotColor || 'inherit'}; margin-right:4px;">●</span> ${statutDef.label}
           </span>
-
           ${(!isJuridique && sub.statut === 'retravailler' && sub.commentaireJuridique) ? `
             <div style="margin-top: 8px; font-size: 12px; color: var(--color-text-secondary); font-style: italic; max-width: 280px; line-height: 1.4;">
               💬 "${sub.commentaireJuridique}"
             </div>
           ` : ''}
         </td>
-        <td>
-           <span style="display:inline-block; padding:4px 12px; border-radius:100px; background:${currentScore <= 40 ? '#FEE2E2' : currentScore <= 70 ? '#FEF3C7' : '#D1FAE5'}; color:${currentScore <= 40 ? '#991B1B' : currentScore <= 70 ? '#92400E' : '#065F46'}; font-weight:600; font-size:11px;">
-             ${currentScore <= 40 ? 'Risque Élevé' : currentScore <= 70 ? 'Modéré' : 'Conforme'}
-           </span>
-        </td>
-        <td>
-          <span class="cell-date">${formattedDate}</span>
-        </td>
+        <td><span class="cell-date">${sub.statut === 'valide' ? (sub.dateValidation || 'Récemment') : '-'}</span></td>
         ${isJuridique ? `
         <td>
-          <span style="font-size: 13px; color: var(--color-text-secondary);">${sub.soumisParRole === 'marketing' ? 'Camille Fouet' : 'Utilisateur'}</span>
+          <span style="font-size: 13px; color: var(--color-text-secondary);">${submitter}</span>
         </td>
         ` : ''}
         <td class="cell-arrow">
           <div style="display: flex; justify-content: flex-end; align-items: center; gap: 8px;">
             ${(!isJuridique && sub.statut === 'retravailler') ? `
               <button class="btn btn-outline-primary btn-sm btn-retravailler" data-sub-id="${sub.id}" style="padding: 4px 10px; font-size: 11px;">
-                ✏️ Modifier et re-soumettre
+                ✏️ Modifier et resoumettre
               </button>
             ` : ''}
             ${(isJuridique && sub.statut === 'en_cours') ? `
               <button class="btn-validate" data-sub-id="${sub.id}" style="background:transparent; border:1.5px solid #6B4EFF; color:#6B4EFF; border-radius:6px; padding:6px 14px; font-size:13px; font-weight:500; cursor:pointer; transition:all 0.15s ease;" onmouseover="this.style.background='#EDE9FE'" onmouseout="this.style.background='transparent'">
-                Ouvrir la validation →
+                Examiner ce contenu →
               </button>
             ` : ''}
             <span style="color:#9CA3AF; margin-left:4px;">&gt;</span>

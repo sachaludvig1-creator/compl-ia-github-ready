@@ -30,8 +30,8 @@ window.SubmissionScreen = {
             <div class="page-header-left">
               <button class="btn btn-ghost btn-sm" id="btn-retour" style="margin-right:8px;">← Retour</button>
               <div>
-                <h1>Nouvelle validation</h1>
-                <p>Soumettez votre contenu pour analyse réglementaire IA</p>
+                <h1>Soumettre un contenu à analyser</h1>
+                <p>L'IA analyse votre contenu en quelques secondes selon les référentiels CE 1223/2009, ARPP et DGCCRF</p>
               </div>
             </div>
           </div>
@@ -111,8 +111,8 @@ window.SubmissionScreen = {
               <div class="mode-panel" id="panel-mon-contenu">
                 <div class="mon-contenu-grid">
 
-                  <!-- Selects catégorie + canal -->
-                  <div class="form-row-two">
+                  <!-- Selects catégorie + canal + deadline -->
+                  <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 24px;">
                     <div class="form-group">
                       <label class="form-label" for="select-categorie">Catégorie produit</label>
                       <select class="form-select" id="select-categorie">
@@ -127,6 +127,30 @@ window.SubmissionScreen = {
                         ${CANAUX.map(c => `<option value="${c}">${c}</option>`).join('')}
                       </select>
                     </div>
+                    <div class="form-group">
+                      <label class="form-label" for="input-deadline">Date de retour souhaitée <span>(optionnel)</span></label>
+                      <input type="date" class="form-input" id="input-deadline" style="width:100%; padding:12px; border:1px solid #D1D5DB; border-radius:8px; font-family:var(--font-family); color:#374151;">
+                    </div>
+                  </div>
+
+                  <!-- Pays de diffusion ciblés -->
+                  <div class="form-group" style="margin-bottom: 24px;">
+                    <label class="form-label" style="display:flex; align-items:center; gap:6px;">
+                      Pays de diffusion du contenu (réglementation applicable)
+                      <span title="Sélectionnez les marchés où ce contenu sera publié. La réglementation de chaque marché sera appliquée à l'analyse." style="cursor:help; color:#9CA3AF;">ⓘ</span>
+                    </label>
+                    <div style="font-size:12px; color:#6B7280; margin-bottom:12px;">Ex : France → Règlement CE 1223/2009 + ARPP</div>
+                    <div class="multi-select-tags" id="pays-tags" style="display:flex; flex-wrap:wrap; gap:8px;">
+                      ${['France', 'UE', 'Royaume-Uni', 'USA', 'LATAM', 'EMEA', 'International'].map((p, i) => `
+                        <label style="display:inline-flex; align-items:center; gap:6px; padding:8px 16px; background:#F3F4F6; border:1px solid #E5E7EB; border-radius:100px; cursor:pointer; font-size:13px; font-weight:500; transition:0.2s;" class="pays-lbl">
+                          <input type="checkbox" value="${p}" class="pays-chk" style="accent-color:#6B4EFF;" ${i===0 ? 'checked' : ''}>
+                          ${p}
+                        </label>
+                      `).join('')}
+                    </div>
+                    <style>
+                      .pays-lbl:has(input:checked) { background: #F5F3FF !important; border-color: #6B4EFF !important; color: #6B4EFF; }
+                    </style>
                   </div>
 
                   <!-- Textarea + Zone drag & drop -->
@@ -167,7 +191,7 @@ window.SubmissionScreen = {
               <div class="submission-footer">
                 <div class="submission-footer-btns" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; margin-top: 16px;">
                   <button class="btn btn-primary" id="btn-lancer-audit" style="width: 100%; height: 52px; font-size: 16px; font-weight: 600;">
-                    🔍&nbsp; Lancer l'audit IA
+                    🔍&nbsp; Lancer l'analyse IA →
                   </button>
                   <button class="btn" id="btn-annuler" style="background: transparent; color: #6B7280; border: none; font-weight: 500; padding: 12px;">Annuler</button>
                   <div style="text-align: center; font-size: 12px; color: #9CA3AF; margin-top: 4px;">
@@ -287,8 +311,9 @@ window.SubmissionScreen = {
     const texte     = document.getElementById('textarea-texte')?.value?.trim();
     const categorie = document.getElementById('select-categorie')?.value;
     const canal     = document.getElementById('select-canal')?.value;
+    const paysChks  = document.querySelectorAll('.pays-chk:checked');
 
-    if (texte && categorie && canal) {
+    if (texte && categorie && canal && paysChks.length > 0) {
       btnAudit.disabled = false;
     } else {
       btnAudit.disabled = true;
@@ -410,10 +435,14 @@ window.SubmissionScreen = {
       };
     } else {
       /* Mode "Mon contenu" : récupère les valeurs du formulaire */
+      const paysSelectionnes = Array.from(document.querySelectorAll('.pays-chk:checked')).map(cb => cb.value);
+      
       formData = {
         texte:      document.getElementById('textarea-texte').value.trim(),
         categorie:  document.getElementById('select-categorie').value,
         canal:      document.getElementById('select-canal').value,
+        pays:       paysSelectionnes.join(', '), // Envoi des pays dans la formData
+        deadline:   document.getElementById('input-deadline')?.value || null,
         imageData:  this._formData.imageData,
         imageUrl:   null,
         estDemo:    false,

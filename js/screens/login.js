@@ -263,8 +263,11 @@ window.LoginScreen = {
         </div>
         
         <div class="ob-input-group">
-          <label class="ob-label">Pays principal de diffusion</label>
-          <input type="text" id="ob-pays" class="ob-input" value="${this.state.formData.pays}" placeholder="ex: France, Monde..."/>
+          <label class="ob-label" style="display:flex; align-items:center; gap:6px;">
+            Pays d'opération 
+            <span title="Sélectionnez les pays où vous opérez majoritairement." style="cursor:help; color:#9CA3AF;">ⓘ</span>
+          </label>
+          <input type="text" id="ob-pays" class="ob-input" value="${this.state.formData.pays}" placeholder="ex: France, UE, International..."/>
         </div>
         
         <div class="ob-input-group" style="margin-bottom: 32px;">

@@ -169,7 +169,7 @@ window.ResultsScreen = {
                    <div style="height: 100%; width: ${score}%; background: ${scoreColor}; border-radius: 4px;"></div>
                 </div>
                 <div class="results-score-desc" style="margin-top: 12px;">Score de conformité réglementaire</div>
-                <div style="font-size: 10px; color: var(--color-text-muted); margin-top: 4px; text-align: center; max-width: 120px; line-height: 1.3;">${score <= 40 ? 'Risque Élevé' : score <= 70 ? 'Risque Modéré' : 'Conforme'}</div>
+                <div style="font-size: 10px; color: var(--color-text-muted); margin-top: 4px; text-align: center; max-width: 120px; line-height: 1.3;">${score <= 40 ? 'Risque Élevé' : score <= 70 ? 'Conforme avec réserve' : 'Conforme'}</div>
               </div>
               <div class="results-summary-right">
                 <div class="results-risk-chips">
@@ -242,20 +242,31 @@ window.ResultsScreen = {
             ` : ''}
 
             <!-- Zone d'édition du texte -->
-            <textarea class="editor-textarea" id="editor-textarea"
-              ${formData.isJuridicalReview ? 'readonly' : ''}
-              placeholder="Le texte modifié apparaîtra ici…">${formData.texte}</textarea>
-
             ${!formData.isJuridicalReview ? `
-              <div id="editor-instruction" style="font-size: 12px; color: var(--color-text-secondary); font-style: italic; margin-top: 8px; text-align: center;">
-                ← Cliquez sur 'Appliquer' pour intégrer une reformulation conforme
-              </div>
+              <label class="form-label" style="font-size:13px; font-weight:600; color:#4B5563; margin-bottom:8px; display:block;">
+                ✏️ Éditeur libre — adaptez le texte à votre marque
+              </label>
             ` : ''}
+            <textarea class="editor-textarea free-edit-textarea" id="editor-textarea"
+              ${formData.isJuridicalReview ? 'readonly' : ''}
+              placeholder="Modifiez librement ce texte pour l'adapter au tone of voice de votre marque...">${formData.texte}</textarea>
+
+            <style>
+              .free-edit-textarea:not([readonly]):focus {
+                border-color: #3B82F6 !important;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+              }
+            </style>
 
             <!-- Container pour le bouton de relance V2 (masqué par défaut) -->
             ${!formData.isJuridicalReview ? `
               <div id="v2-actions-container" style="display:none; text-align:center; padding-top: 16px; border-top: 1px solid var(--color-border); margin-top: 16px;">
-                <button class="btn btn-outline-primary" id="btn-relancer-v2" style="width: 100%;">🔄 Relancer l'analyse sur la v2</button>
+                <button class="btn btn-outline-primary" id="btn-relancer-v2" style="width: 100%;">🔄 Relancer l'analyse sur la V${(formData.version || 1) + 1}</button>
+              </div>
+              <div style="margin-top:24px;">
+                <button class="btn" id="btn-toggle-chatbot" style="width:100%; font-size:13px; font-weight:500; border:1px solid #D1D5DB; background:white; color:#374151;">
+                  💬 Une question sur ce rapport ? Demander à l'IA
+                </button>
               </div>
             ` : ''}
 
@@ -283,24 +294,42 @@ window.ResultsScreen = {
               </div>
             ` : ''}
             <div class="editor-footer" style="padding: 16px 0 0; background: transparent; border-top: none;">
+            
+            <!-- Actions de clôture -->
+            <div class="editor-footer-actions" style="padding-top: 16px;">
               ${formData.isJuridicalReview ? `
-                <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-                  <button class="btn btn-success" id="btn-juridique-valider" style="width: 100%; height: 44px; border-radius: 8px; background: #16A34A; color: white; display: flex; align-items: center; justify-content: center; font-weight: 500;">
-                    ✅ Valider
-                  </button>
-                  <button class="btn btn-outline-danger" id="btn-juridique-reviser" style="width: 100%; height: 44px; border-radius: 8px; border: 1px solid #EF4444; color: #EF4444; background: transparent; display: flex; align-items: center; justify-content: center; font-weight: 500;">
-                    ↩ Demander Révision
-                  </button>
+                <div style="margin-bottom: 12px; font-size: 13px; color: var(--color-text-secondary); text-align: center;">
+                  Vous êtes en mode Service Juridique. L'édition est verrouillée. Retournez sur le tableau de bord pour apposer votre validation.
                 </div>
+                <button class="btn btn-outline-primary btn-block" onclick="window.navigate('Dashboard')">
+                  ← Retour à la file de validation
+                </button>
               ` : `
                 <button class="btn btn-primary btn-block" id="btn-envoyer-juridique">
                   📨&nbsp; Envoyer au service juridique
                 </button>
-                <div class="editor-footer-note">
-                  Le contenu édité et le rapport complet seront transmis à Isabelle Renard (Resp. Affaires Réglementaires).
+                <div class="editor-footer-note" style="font-size: 11px; color: var(--color-text-muted); margin-top: 8px; text-align: center;">
+                  Le contenu édité et le rapport complet seront transmis au service réglementaire.
                 </div>
               `}
             </div>
+
+            <!-- Interface Chatbot (invisible par défaut) -->
+            ${!formData.isJuridicalReview ? `
+              <div id="chatbot-container" style="display:none; margin-top:32px; background:white; border:1px solid #E5E7EB; border-radius:12px; overflow:hidden; flex-direction:column;">
+                <div style="background:#F3F4F6; padding:12px; font-weight:600; font-size:13px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>🤖 Assistant Légal Compl-IA</span>
+                  <button id="btn-close-chatbot" style="background:transparent; border:none; cursor:pointer;">✕</button>
+                </div>
+                <div id="chatbot-messages" style="height:200px; overflow-y:auto; padding:12px; font-size:13px; background:#FAFAFA;">
+                  <div style="margin-bottom:12px;"><span style="background:#E5E7EB; padding:6px 10px; border-radius:12px; display:inline-block;">Bonjour, avez-vous des questions sur un point spécifique du règlement ?</span></div>
+                </div>
+                <div style="border-top:1px solid #E5E7EB; border-bottom:none; padding:8px; display:flex; gap:8px;">
+                  <input type="text" id="chatbot-input" placeholder="Posez votre question..." style="flex:1; padding:8px; border:1px solid #D1D5DB; border-radius:6px; font-size:13px; outline:none;">
+                  <button id="btn-chatbot-send" style="background:#6B4EFF; color:white; border:none; border-radius:6px; padding:0 12px; cursor:pointer;" title="Envoyer">➤</button>
+                </div>
+              </div>
+            ` : ''}
 
           </div>
         </div>
@@ -317,7 +346,10 @@ window.ResultsScreen = {
 
     const niveauClass = isEleve ? 'risk-card-high' : isMoyen ? 'risk-card-medium' : 'risk-card-low';
     const badgeClass  = isEleve ? 'risk-badge-high' : isMoyen ? 'risk-badge-medium' : 'risk-badge-low';
-    const niveauLabel = isEleve ? '🔴 Risque élevé' : isMoyen ? '🟠 Risque moyen' : '🟡 Avis / Faible';
+    const niveauLabel = isEleve ? '🔴 À risque' : isMoyen ? '🟠 Conforme avec réserve' : '🟢 Conforme';
+    const niveauTooltip = isEleve ? 'Ce claim contrevient à la réglementation et doit être modifié.' :
+                          isMoyen ? 'Ce claim est acceptable sous conditions supplémentaires (ex: astérisque).' :
+                          'Ce claim est publiable tel quel.';
 
     /* Rétrocompatibilité des clés */
     const fragment = point.phrase || point.fragment || '';
@@ -328,7 +360,7 @@ window.ResultsScreen = {
 
         <!-- En-tête du point de risque -->
         <div class="risk-card-header">
-          <span class="risk-badge ${badgeClass}">${niveauLabel}</span>
+          <span class="risk-badge ${badgeClass}" title="${niveauTooltip}" style="cursor:help;">${niveauLabel}</span>
           <div class="risk-fragment">"${fragment}"</div>
         </div>
 
@@ -350,6 +382,8 @@ window.ResultsScreen = {
           <div class="risk-reformulations-list">
             ${point.reformulations && point.reformulations.length ? point.reformulations.map((r, ri) => `
               <button class="reformulation-btn"
+                      data-state="normal"
+                      data-point-id="risk-${point.id || index}"
                       id="ref-${point.id || index}-${ri}"
                       data-original="${fragment.replace(/"/g, '&quot;')}"
                       data-replacement="${r.replace(/"/g, '&quot;')}">
@@ -415,8 +449,12 @@ window.ResultsScreen = {
 
     /* Appel à l'API Serverless */
     try {
-      const sysPrompt = "Tu es un expert en réglementation cosmétique européenne (CE 1223/2009 et ARPP). Analyse ce contenu et retourne UNIQUEMENT un JSON avec {score, problemes:[{phrase, severite, explication, reglement, reformulations:[]}], points_positifs:[], temps_economise}.";
+      const paysSelectionnes = typeof formData.pays === 'string' ? formData.pays : (Array.isArray(formData.pays) ? formData.pays.join(", ") : "France");
+      const brandRules = localStorage.getItem('complia_brand_rules') || '';
+      const knowledgeLocal = brandRules ? `\nRègles internes de la marque (À RESPECTER STRICTEMENT) :\n${brandRules}\n` : '';
       
+      const sysPrompt = `Tu es un expert en réglementation cosmétique. Analyse ce contenu pour les marchés : ${paysSelectionnes}.${knowledgeLocal} Retourne UNIQUEMENT un JSON avec {score, problemes:[{phrase, severite, explication, reglement, reformulations:[]}], points_positifs:[], temps_economise}.`;
+
       const response = await fetch("/api/analyze", {
         method: "POST",
         headers: {
@@ -517,11 +555,13 @@ window.ResultsScreen = {
     /* Action au clic : Re-lancer l'analyse */
     document.getElementById('btn-relancer-v2')?.addEventListener('click', async (e) => {
       const btn = e.target;
+      const formData = window.AppState.pendingFormData;
+      const currentNextVersion = (formData.version || 1) + 1;
+      
       btn.disabled = true;
-      btn.innerHTML = '🔄 Analyse de la v2 en cours...';
+      btn.innerHTML = `🔄 Analyse de la V${currentNextVersion} en cours...`;
       
       const newText = editorTextarea.value;
-      const formData = window.AppState.pendingFormData;
       
       /* Préservation du score V1 */
       if (formData.score_v1 === undefined) {
@@ -534,7 +574,11 @@ window.ResultsScreen = {
       
       /* Appel de la V2 */
       try {
-        const sysPrompt = "Tu es un expert en réglementation cosmétique européenne (CE 1223/2009 et ARPP). Analyse ce contenu et retourne UNIQUEMENT un JSON valide {score, problemes:[{phrase, severite, explication, reglement, reformulations:[]}], points_positifs:[], temps_economise}.";
+        const paysSelectionnes = typeof formData.pays === 'string' ? formData.pays : (Array.isArray(formData.pays) ? formData.pays.join(", ") : "France");
+        const brandRules = localStorage.getItem('complia_brand_rules') || '';
+        const knowledgeLocal = brandRules ? `\nRègles internes de la marque (À RESPECTER STRICTEMENT) :\n${brandRules}\n` : '';
+
+        const sysPrompt = `Tu es un expert en réglementation cosmétique. Analyse ce contenu pour les marchés : ${paysSelectionnes}.${knowledgeLocal} Retourne UNIQUEMENT un JSON valide {score, problemes:[{phrase, severite, explication, reglement, reformulations:[]}], points_positifs:[], temps_economise}.`;
         
         const response = await fetch("/api/analyze", {
           method: "POST",
@@ -559,11 +603,12 @@ window.ResultsScreen = {
         const texteJson = message.content[0].text.match(/\{[\s\S]*\}/)?.[0] || message.content[0].text;
         const reponseIA = JSON.parse(texteJson);
         
-        /* Enregistrement de V2 */
+        /* Enregistrement de V2/V3... */
         window.AppState.analysisResult = reponseIA;
         formData.analyse = reponseIA;
         formData.score_v2 = reponseIA.score ?? reponseIA.scoreConformite ?? 100;
         formData.texte = newText;
+        formData.version = currentNextVersion;
         this._texteOriginal = newText;
         
         /* Sauvegarde temporaire */
@@ -621,6 +666,7 @@ window.ResultsScreen = {
         formData.analyse = fallbackV2;
         formData.score_v2 = fallbackV2.score;
         formData.texte = newText;
+        formData.version = currentNextVersion;
         this._texteOriginal = newText;
 
         /* Sauvegarde temporaire fallback */
@@ -653,25 +699,71 @@ window.ResultsScreen = {
       }
     });
 
-    /* ── Boutons de reformulation → remplacent le texte ── */
+    /* ── Boutons de reformulation → remplacent le texte (Bug 1 - Toggle) ── */
     document.querySelectorAll('.reformulation-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         if (!editorTextarea) return;
 
         const original    = btn.dataset.original;
         const replacement = btn.dataset.replacement;
+        const pointId     = btn.dataset.pointId;
+        const currentState = btn.dataset.state;
 
-        /* Remplace le fragment dans l'éditeur (Bug 4) */
-        const texteActuel = editorTextarea.value;
-        const phraseProblematique = original;
-        const reformulation = replacement;
-        
-        if (texteActuel.includes(phraseProblematique)) {
-          editorTextarea.value = texteActuel.replace(phraseProblematique, reformulation);
+        let texteActuel = editorTextarea.value;
+
+        if (currentState === 'applied') {
+          /* ANNULER L'UTILISATION DU BOUTON (Toggle off) */
+          if (texteActuel.includes(replacement)) {
+            texteActuel = texteActuel.replace(replacement, original);
+          } else {
+            /* Fallback si l'utilisateur a édité manuellement entre-temps */
+            window.showToast("⚠️ Impossible d'annuler automatiquement (le texte a été modifié).", 3000);
+            return;
+          }
+          editorTextarea.value = texteActuel;
+          btn.dataset.state = 'normal';
+          btn.classList.remove('reformulation-applied');
+          btn.style.background = '';
+          const applyLabel = btn.querySelector('.ref-apply-label');
+          if (applyLabel) applyLabel.textContent = '← Appliquer';
+          window.showToast('↩ Reformulation annulée.');
+
         } else {
-          editorTextarea.value = texteActuel + ' ' + reformulation;
+          /* APPLIQUER LA REFORMULATION (Toggle ON) */
+          /* 1. Vérifier s'il y a déjà un bouton appliqué dans CE risk-point */
+          const siblings = document.querySelectorAll(`.reformulation-btn[data-point-id="${pointId}"]`);
+          for (let sib of siblings) {
+            if (sib.dataset.state === 'applied') {
+               const sibReplacement = sib.dataset.replacement;
+               const sibOriginal    = sib.dataset.original;
+               /* Annuler ce sibling d'abord */
+               if (texteActuel.includes(sibReplacement)) {
+                 texteActuel = texteActuel.replace(sibReplacement, sibOriginal);
+               }
+               sib.dataset.state = 'normal';
+               sib.classList.remove('reformulation-applied');
+               sib.style.background = '';
+               const sLabel = sib.querySelector('.ref-apply-label');
+               if (sLabel) sLabel.textContent = '← Appliquer';
+            }
+          }
+
+          /* 2. Appliquer la nouvelle */
+          if (texteActuel.includes(original)) {
+            texteActuel = texteActuel.replace(original, replacement);
+          } else {
+            texteActuel = texteActuel + ' ' + replacement;
+          }
+          editorTextarea.value = texteActuel;
+
+          btn.dataset.state = 'applied';
+          btn.classList.add('reformulation-applied');
+          btn.style.background = '#ECFDF5'; /* Vert léger explicit */
+          const applyLabel = btn.querySelector('.ref-apply-label');
+          if (applyLabel) applyLabel.textContent = '✓ Appliqué';
+          window.showToast('✏️ Reformulation appliquée.');
         }
-        
+
         /* Mettre à jour le compteur s'il y en a un sur cette page */
         const charCount = document.getElementById('char-count');
         if (charCount) charCount.textContent = editorTextarea.value.length;
@@ -680,18 +772,9 @@ window.ResultsScreen = {
         const evt = new Event('input', { bubbles: true });
         editorTextarea.dispatchEvent(evt);
 
-        /* Feedback visuel sur le bouton */
-        const instruction = document.getElementById('editor-instruction');
-        if (instruction) instruction.style.display = 'none';
-        btn.classList.add('reformulation-applied');
-        const applyLabel = btn.querySelector('.ref-apply-label');
-        if (applyLabel) applyLabel.textContent = '✓ Appliqué';
-
         /* Pulse sur l'éditeur */
         editorTextarea.classList.add('editor-pulse');
         setTimeout(() => editorTextarea.classList.remove('editor-pulse'), 700);
-
-        window.showToast('✏️ Reformulation appliquée dans l\'éditeur.');
       });
     });
 
@@ -754,6 +837,13 @@ window.ResultsScreen = {
         });
       }
 
+      await window.FirebaseService.createNotification({
+        user_id: 'camille',
+        email: 'camille.fouet.pro@gmail.com',
+        title: 'Révision demandée',
+        message: `La soumission "${formData.titre || 'Sérum Anti-Âge'}" nécessite des corrections. \nCommentaire : ${comment}`
+      });
+
       window.showToast('📝 Révision demandée. L\'équipe marketing est notifiée.');
       setTimeout(() => window.navigate('Dashboard'), 1400);
     });
@@ -780,10 +870,66 @@ window.ResultsScreen = {
         });
       }
 
+      await window.FirebaseService.createNotification({
+        user_id: 'camille',
+        email: 'camille.fouet.pro@gmail.com',
+        title: 'Contenu validé ✅',
+        message: `La soumission "${formData.titre || 'Sérum Anti-Âge'}" a été validée par le service juridique.`
+      });
+
       window.showToast('✅ Soumission validée. L\'équipe marketing est notifiée.');
       setTimeout(() => window.navigate('Dashboard'), 1400);
     });
-    /* REMPLACÉ CI-DESSUS */
+
+    /* ── Chatbot IA (Toggle et Envoi) ── */
+    const cbContainer = document.getElementById('chatbot-container');
+    const cbBtnToggle = document.getElementById('btn-toggle-chatbot');
+    const cbBtnClose  = document.getElementById('btn-close-chatbot');
+    const cbBtnSend   = document.getElementById('btn-chatbot-send');
+    const cbInput     = document.getElementById('chatbot-input');
+    const cbMsgs      = document.getElementById('chatbot-messages');
+
+    if (cbContainer) {
+      cbBtnToggle?.addEventListener('click', () => { cbContainer.style.display = 'flex'; cbBtnToggle.style.display = 'none'; });
+      cbBtnClose?.addEventListener('click', () => { cbContainer.style.display = 'none'; cbBtnToggle.style.display = 'block'; });
+      const sendCbMsg = async () => {
+        const txt = cbInput.value.trim();
+        if(!txt) return;
+        cbMsgs.innerHTML += `<div style="margin-bottom:12px; text-align:right;"><span style="background:#6B4EFF; color:white; padding:6px 10px; border-radius:12px; display:inline-block;">${txt}</span></div>`;
+        cbInput.value = '';
+        cbMsgs.scrollTop = cbMsgs.scrollHeight;
+        
+        cbBtnSend.disabled = true;
+        cbMsgs.innerHTML += `<div id="cb-loading" style="margin-bottom:12px;"><span style="background:#E5E7EB; padding:6px 10px; border-radius:12px; display:inline-block; font-size:11px;">Euh...</span></div>`;
+        cbMsgs.scrollTop = cbMsgs.scrollHeight;
+        
+        try {
+          const rep = await fetch('/api/analyze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              promptSystem: "Tu es l'assistant Légal de Compl-IA. Sois extrèmement bref (2 lignes max) et précis sur les lois cosmétiques européennes.", 
+              text: txt, pays: 'Chatbot' 
+            })
+          });
+          document.getElementById('cb-loading')?.remove();
+          if(rep.ok) {
+            const data = await rep.json();
+            const repTexte = data.content?.[0]?.text || "Il y a un souci avec l'API Anthropic. Je ne peux pas répondre pour le moment.";
+            cbMsgs.innerHTML += `<div style="margin-bottom:12px;"><span style="background:#E5E7EB; padding:6px 10px; border-radius:12px; display:inline-block;">${repTexte}</span></div>`;
+          } else {
+            cbMsgs.innerHTML += `<div style="margin-bottom:12px;"><span style="background:#FEE2E2; color:#991B1B; padding:6px 10px; border-radius:12px; display:inline-block;">Désolé, le backend proxy n'est pas opérationnel (Erreur HTTP).</span></div>`;
+          }
+        } catch(e) {
+          document.getElementById('cb-loading')?.remove();
+          cbMsgs.innerHTML += `<div style="margin-bottom:12px;"><span style="background:#E5E7EB; padding:6px 10px; border-radius:12px; display:inline-block;">Désolé, en l'absence de base backend proxy configurée, l'IA ne peut pas répondre en temps réel.</span></div>`;
+        }
+        cbBtnSend.disabled = false;
+        cbMsgs.scrollTop = cbMsgs.scrollHeight;
+      };
+      cbBtnSend?.addEventListener('click', sendCbMsg);
+      cbInput?.addEventListener('keydown', (e) => { if(e.key === 'Enter') sendCbMsg(); });
+    }
   },
 
   /* Copie via execCommand — fallback pour file:// */
@@ -852,6 +998,14 @@ window.ResultsScreen = {
       await window.FirebaseService.createSubmission(nouvelleSoumission);
       window.showToast('📨 Envoyé au service juridique. Consultez le tableau de bord pour le suivi.');
     }
+
+    /* Notification pour le statut "A examiner" */
+    await window.FirebaseService.createNotification({
+      user_id: 'isabelle',
+      email: 'isabelle.renard.pro@gmail.com',
+      title: 'Nouvelle soumission à valider',
+      message: `Le contenu ${formData.estRetravail ? `retravaillé (V${(window.AppState.submissions.find(s => s.id === formData.submissionId)?.version || 1)+1})` : 'nouvellement soumis'} est en attente de votre examen.`
+    });
 
     /* Retour au dashboard avec un léger délai pour lire le toast */
     setTimeout(() => window.navigate('Dashboard'), 1400);

@@ -233,5 +233,47 @@ window.FirebaseService = {
       console.error("[Firebase] Failed to add comment", e);
       return false;
     }
+  },
+
+  async fetchNotifications(userId) {
+    if (!this.isInitialized) return [];
+    const { collection, query, where, getDocs } = this._ops;
+    try {
+      const q = query(collection(this.db, "notifications"), where("user_id", "==", userId));
+      const qs = await getDocs(q);
+      const arr = [];
+      qs.forEach(d => arr.push({ ...d.data(), id: d.id }));
+      arr.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+      return arr;
+    } catch (e) {
+      return [];
+    }
+  },
+
+  async createNotification(data) {
+    if (!this.isInitialized) return true;
+    const { collection, addDoc } = this._ops;
+    try {
+      data.timestamp = Date.now();
+      data.read = false;
+      await addDoc(collection(this.db, "notifications"), data);
+
+      if (data.email) {
+        fetch('/api/notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: data.email,
+            subject: data.title || 'Notification Compl-IA',
+            message: data.message || 'Nouvelle notification Compl-IA'
+          })
+        }).catch(err => console.log('Mail notify issue (dev)', err));
+      }
+
+      return true;
+    } catch (e) {
+      console.error("[Firebase] Failed to create notification", e);
+      return false;
+    }
   }
 };
