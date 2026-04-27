@@ -319,8 +319,9 @@ const initApp = async () => {
         if (user) {
           const doc = await window.FirebaseService.fetchUserDoc(user.uid);
           if (doc && doc.role && doc.role_type) {
+             doc.uid = user.uid;
              window.AppState.currentUser = doc;
-             window.AppState.notifications = await window.FirebaseService.fetchNotifications(doc.id);
+             window.AppState.notifications = await window.FirebaseService.fetchNotifications(doc.uid);
              if(window.updateNotificationBadge) window.updateNotificationBadge();
              window.navigate('Dashboard');
           } else {

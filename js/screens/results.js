@@ -1020,7 +1020,7 @@ Texte : ${newText}`;
         commentaireJuridique: '',
         imageUrl:           formData.imageUrl || null,
         soumisParRole:      'marketing',
-        submitted_by:       currentUser.id || 'camille',
+        submitted_by:       currentUser.uid || currentUser.id || 'camille',
         risque:             calcRisque,
         analyse:            window.AppState.analysisResult || {},
         score_v1:           formData.score_v1 ?? calcScore,
