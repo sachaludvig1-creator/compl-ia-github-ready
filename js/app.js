@@ -83,6 +83,29 @@ window.navigate = function(nomEcran, params = {}) {
       });
     });
 
+    /* Mobile Sidebar Toggle */
+    const sidebar = document.getElementById('app-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    document.getElementById('btn-mobile-menu')?.addEventListener('click', () => {
+      sidebar?.classList.add('mobile-open');
+    });
+    document.getElementById('btn-mobile-sidebar-close')?.addEventListener('click', () => {
+      sidebar?.classList.remove('mobile-open');
+    });
+    overlay?.addEventListener('click', () => {
+      sidebar?.classList.remove('mobile-open');
+    });
+
+    /* Mobile Bottom Bar Actions */
+    document.querySelectorAll('.mobile-bottom-item[data-nav]').forEach(el => {
+      el.addEventListener('click', () => {
+        window.navigate(el.dataset.nav === 'dashboard' ? 'Dashboard' : 'Submission');
+      });
+    });
+    document.querySelector('.mobile-bottom-item[data-action="notifs"]')?.addEventListener('click', () => {
+      if (window.openNotificationsPanel) window.openNotificationsPanel();
+    });
+
   }, 120);
 };
 
@@ -207,7 +230,15 @@ window.renderSidebar = function(itemActif) {
   const nbEnAttente = window.AppState.submissions.filter(s => s.statut === 'en_cours').length;
 
   return `
-    <aside class="sidebar">
+    <!-- Mobile Topbar -->
+    <div class="mobile-topbar">
+      <button class="mobile-menu-btn" id="btn-mobile-menu">☰</button>
+      <div class="mobile-brand-name">Compl-IA</div>
+      <div style="width: 24px;"></div>
+    </div>
+    
+    <aside class="sidebar" id="app-sidebar">
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
       <!-- Logo Compl-IA -->
       <div class="sidebar-logo" style="margin-bottom: 32px;">
@@ -268,7 +299,29 @@ window.renderSidebar = function(itemActif) {
         </button>
       </div>
 
+      <button class="mobile-sidebar-close" id="btn-mobile-sidebar-close">✕</button>
     </aside>
+
+    <!-- Mobile Bottom Bar -->
+    <nav class="mobile-bottom-bar">
+      <div class="mobile-bottom-item ${itemActif === 'dashboard' ? 'active' : ''}" data-nav="dashboard">
+        <div class="mobile-bottom-icon">🏠</div>
+        <span>Dashboard</span>
+      </div>
+      ${!isJuridique ? `
+      <div class="mobile-bottom-item ${itemActif === 'nouvelle' ? 'active' : ''}" data-nav="nouvelle">
+        <div class="mobile-bottom-icon">➕</div>
+        <span>Nouveau</span>
+      </div>
+      ` : ''}
+      <div class="mobile-bottom-item" id="btn-mobile-notifs" data-action="notifs">
+        <div class="mobile-bottom-icon" style="position:relative;">
+          🔔
+          ${(window.AppState.notifications || []).filter(n => !n.read).length > 0 ? `<span class="mobile-notif-badge"></span>` : ''}
+        </div>
+        <span>Notifs</span>
+      </div>
+    </nav>
   `;
 };
 

@@ -241,22 +241,22 @@ window.DashboardScreen = {
 
     return `
       <tr class="table-row-clickable" data-sub-id="${sub.id}">
-        <td>
+        <td data-label="Contenu & Périmètre">
           <div class="cell-title" style="margin-bottom:4px;">
             <span class="cell-title-main" style="max-width: 250px; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${sub.titre}</span>
             <span class="cell-title-sub">${sub.categorie} · ${sub.pays || 'France'}</span>
           </div>
         </td>
-        <td><span class="cell-date">${formattedDate || 'Aujourd\'hui'}</span></td>
-        <td>
+        <td data-label="Soumis le"><span class="cell-date">${formattedDate || 'Aujourd\'hui'}</span></td>
+        <td data-label="Retour souhaité">
           ${deadlineDateStr ? `<span style="color:#D97706; font-weight:600; font-size:12px; background:#FEF3C7; padding:4px 8px; border-radius:4px;">⏱ ${deadlineDateStr}</span>` : '<span style="color:#9CA3AF; font-size:12px;">Non précisé</span>'}
         </td>
-        <td>
+        <td data-label="Audit IA">
            <span style="display:inline-block; padding:4px 12px; border-radius:100px; background:${currentScore <= 40 ? '#FEE2E2' : currentScore <= 70 ? '#FEF3C7' : '#D1FAE5'}; color:${currentScore <= 40 ? '#991B1B' : currentScore <= 70 ? '#92400E' : '#065F46'}; font-weight:600; font-size:11px;">
              ${sub.version > 1 ? `V${sub.version} : ` : ''}${currentScore <= 40 ? 'Risque Élevé' : currentScore <= 70 ? 'Conforme avec réserve' : 'Conforme'}
            </span>
         </td>
-        <td>
+        <td data-label="Statut">
           <span class="badge ${statutDef.cssClass}">
              <span style="color: ${statutDef.dotColor || 'inherit'}; margin-right:4px;">●</span> ${statutDef.label}
           </span>
@@ -266,9 +266,9 @@ window.DashboardScreen = {
             </div>
           ` : ''}
         </td>
-        <td><span class="cell-date">${sub.statut === 'valide' ? (sub.dateValidation || 'Récemment') : '-'}</span></td>
+        <td data-label="Validé le"><span class="cell-date">${sub.statut === 'valide' ? (sub.dateValidation || 'Récemment') : '-'}</span></td>
         ${isJuridique ? `
-        <td>
+        <td data-label="Affecté par">
           <span style="font-size: 13px; color: var(--color-text-secondary);">${submitter}</span>
         </td>
         ` : ''}

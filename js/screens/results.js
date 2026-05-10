@@ -152,7 +152,13 @@ window.ResultsScreen = {
     const imageSource = formData.imageData || formData.imageUrl || null;
 
     return `
-      <div class="results-layout">
+      <!-- Mobile Tabs Navigation (Visible uniquement sur mobile via CSS) -->
+      <div class="mobile-tabs-nav">
+        <button class="mobile-tab-btn active" data-tab="rapport">📊 Rapport</button>
+        <button class="mobile-tab-btn" data-tab="editeur">✏️ Éditeur</button>
+      </div>
+
+      <div class="results-layout" id="results-layout-container">
 
         <!-- ========== COLONNE GAUCHE : rapport ========== -->
         <div class="results-left">
@@ -316,7 +322,7 @@ window.ResultsScreen = {
 
             <!-- Interface Chatbot (invisible par défaut) -->
             ${!formData.isJuridicalReview ? `
-              <div id="chatbot-container" style="display:none; margin-top:32px; background:white; border:1px solid #E5E7EB; border-radius:12px; overflow:hidden; flex-direction:column;">
+              <div id="chatbot-container" class="chatbot-panel" style="display:none; margin-top:32px; background:white; border:1px solid #E5E7EB; border-radius:12px; overflow:hidden; flex-direction:column;">
                 <div style="background:#F3F4F6; padding:12px; font-weight:600; font-size:13px; display:flex; justify-content:space-between; align-items:center;">
                   <span>🤖 Assistant Légal Compl-IA</span>
                   <button id="btn-close-chatbot" style="background:transparent; border:none; cursor:pointer;">✕</button>
@@ -538,6 +544,21 @@ window.ResultsScreen = {
   _initResultsEvents() {
     const editorTextarea = document.getElementById('editor-textarea');
     const v2Container = document.getElementById('v2-actions-container');
+
+    /* Mobile Tabs Logic */
+    document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.mobile-tab-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        const tab = e.target.dataset.tab;
+        const layout = document.getElementById('results-layout-container');
+        if (tab === 'rapport') {
+          layout.classList.remove('show-editeur');
+        } else {
+          layout.classList.add('show-editeur');
+        }
+      });
+    });
 
     /* Afficher le bouton V2 si le texte a été modifié */
     if (editorTextarea && v2Container) {
@@ -921,8 +942,16 @@ Texte : ${newText}`;
     const cbMsgs      = document.getElementById('chatbot-messages');
 
     if (cbContainer) {
-      cbBtnToggle?.addEventListener('click', () => { cbContainer.style.display = 'flex'; cbBtnToggle.style.display = 'none'; });
-      cbBtnClose?.addEventListener('click', () => { cbContainer.style.display = 'none'; cbBtnToggle.style.display = 'block'; });
+      cbBtnToggle?.addEventListener('click', () => { 
+        cbContainer.style.display = 'flex'; 
+        cbContainer.classList.add('open');
+        cbBtnToggle.style.display = 'none'; 
+      });
+      cbBtnClose?.addEventListener('click', () => { 
+        cbContainer.style.display = 'none'; 
+        cbContainer.classList.remove('open');
+        cbBtnToggle.style.display = 'block'; 
+      });
       const sendCbMsg = async () => {
         const txt = cbInput.value.trim();
         if(!txt) return;

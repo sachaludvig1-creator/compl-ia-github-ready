@@ -207,7 +207,7 @@ window.LoginScreen = {
         
         <div class="divider">ou avec email</div>
         
-        <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+        <div class="name-inputs-flex" style="display: flex; gap: 12px; margin-bottom: 16px;">
           <div style="flex:1;">
             <label class="ob-label">Prénom</label>
             <input type="text" id="ob-prenom" class="ob-input" value="${this.state.formData.prenom}"/>
