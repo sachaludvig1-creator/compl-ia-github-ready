@@ -1356,6 +1356,9 @@
 @media (max-width: 768px) {
   
   /* ----------------- 1. NAVIGATION & LAYOUT ----------------- */
+  .app-layout {
+    flex-direction: column;
+  }
   
   /* Cacher la sidebar par défaut, l'afficher en overlay quand .mobile-open */
   .sidebar {
@@ -1462,6 +1465,25 @@
   
   /* ----------------- 2. TABLEAU DE BORD (Marketing & Juridique) ----------------- */
   
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .filter-group {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+  .filter-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
   /* KPIs en grid 2x2 */
   .metrics-grid {
     flex-wrap: wrap !important;
