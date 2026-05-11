@@ -112,7 +112,7 @@ window.SubmissionScreen = {
                 <div class="mon-contenu-grid">
 
                   <!-- Selects catégorie + canal + deadline -->
-                  <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+                  <div class="top-fields-grid" style="margin-bottom: 24px;">
                     <div class="form-group">
                       <label class="form-label" for="select-categorie">Catégorie produit</label>
                       <select class="form-select" id="select-categorie">
