@@ -100,7 +100,10 @@ window.navigate = function(nomEcran, params = {}) {
     /* Mobile Bottom Bar Actions */
     document.querySelectorAll('.mobile-bottom-item[data-nav]').forEach(el => {
       el.addEventListener('click', () => {
-        window.navigate(el.dataset.nav === 'dashboard' ? 'Dashboard' : 'Submission');
+        const nav = el.dataset.nav;
+        if (nav === 'dashboard') window.navigate('Dashboard');
+        else if (nav === 'pricing') window.navigate('Pricing');
+        else window.navigate('Submission');
       });
     });
     document.querySelector('.mobile-bottom-item[data-action="notifs"]')?.addEventListener('click', () => {
@@ -321,6 +324,10 @@ window.renderSidebar = function(itemActif) {
         <span>Nouveau</span>
       </div>
       ` : ''}
+      <div class="mobile-bottom-item ${itemActif === 'pricing' ? 'active' : ''}" data-nav="pricing">
+        <div class="mobile-bottom-icon">✨</div>
+        <span style="font-weight: 600; background: linear-gradient(90deg, #8B72FF, #000); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Premium</span>
+      </div>
       <div class="mobile-bottom-item" id="btn-mobile-notifs" data-action="notifs">
         <div class="mobile-bottom-icon" style="position:relative;">
           🔔
