@@ -307,6 +307,17 @@ window.DashboardScreen = {
 
     this._updateDashboard();
 
+    // --- RÉTENTION : Tracker l'ouverture du dashboard ---
+    if (window.RetentionService && currentUser) {
+      await window.RetentionService.trackActivity(currentUser.uid);
+    }
+
+    // --- RÉTENTION : Afficher la notification de "Bon retour" ---
+    if (window.AppState.showWelcomeBack) {
+      this._showWelcomeBackNotification(currentUser.prenom || 'Utilisateur');
+      window.AppState.showWelcomeBack = false; // Ne l'afficher qu'une fois
+    }
+
     /* Events persistants au niveau du conteneur (ne nécessitent pas de re-bind si _updateDashboard change l'HTML parent) */
     
     /* Bouton "Nouvelle validation" */
@@ -474,5 +485,63 @@ window.DashboardScreen = {
       window.showToast('📝 Révision demandée. L\'équipe marketing est notifiée.');
       this._updateDashboard();
     });
+  },
+
+  /* Affiche la notification "Bon retour" */
+  _showWelcomeBackNotification(prenom) {
+    const notif = document.createElement('div');
+    notif.style.cssText = `
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: #1E293B;
+      border-left: 4px solid #6B4EFF;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      z-index: 999;
+      opacity: 0;
+      transition: all 0.3s ease;
+      color: white;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    `;
+    
+    notif.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <div style="font-weight:600; font-size:15px; margin-bottom:4px;">👋 Bon retour, ${prenom} !</div>
+          <div style="font-size:13px; color:#94A3B8; line-height:1.4;">Compl-IA est prêt à analyser vos nouveaux contenus.</div>
+        </div>
+        <button id="welcome-back-close" style="background:transparent; border:none; color:#94A3B8; cursor:pointer; font-size:16px;">✕</button>
+      </div>
+      <button id="welcome-back-cta" style="background:#6B4EFF; color:white; border:none; padding:8px 16px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer; align-self:flex-start;">Nouvelle analyse →</button>
+    `;
+
+    document.body.appendChild(notif);
+
+    // Animation in
+    requestAnimationFrame(() => {
+      notif.style.transform = 'translateX(-50%) translateY(0)';
+      notif.style.opacity = '1';
+    });
+
+    const closeNotif = () => {
+      notif.style.transform = 'translateX(-50%) translateY(-20px)';
+      notif.style.opacity = '0';
+      setTimeout(() => notif.remove(), 300);
+    };
+
+    document.getElementById('welcome-back-close').addEventListener('click', closeNotif);
+    document.getElementById('welcome-back-cta').addEventListener('click', () => {
+      closeNotif();
+      window.navigate('Submission');
+    });
+
+    // Disparition auto après 8s
+    setTimeout(closeNotif, 8000);
   }
 };

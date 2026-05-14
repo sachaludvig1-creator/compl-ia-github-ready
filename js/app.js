@@ -390,6 +390,13 @@ const initApp = async () => {
              window.AppState.currentUser = doc;
              window.AppState.notifications = await window.FirebaseService.fetchNotifications(doc.uid);
              if(window.updateNotificationBadge) window.updateNotificationBadge();
+             
+             // --- RÉTENTION ---
+             if (window.RetentionService) {
+                await window.RetentionService.checkInactivity(user);
+                await window.RetentionService.trackActivity(user.uid);
+             }
+             
              window.navigate('Dashboard');
           } else {
              window.AppState.currentUser = null;

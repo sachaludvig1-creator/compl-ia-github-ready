@@ -118,6 +118,14 @@ window.FirebaseService = {
     await setDoc(docRef, data, { merge: true });
   },
 
+  async getUserData(uid) {
+    return this.fetchUserDoc(uid);
+  },
+
+  async updateUserData(uid, data) {
+    return this.updateUserDoc(uid, data);
+  },
+
   async saveWaitlistEmail(email, plan) {
     if (!this.isInitialized) return;
     const { collection, addDoc } = this._ops;
