@@ -118,6 +118,20 @@ window.FirebaseService = {
     await setDoc(docRef, data, { merge: true });
   },
 
+  async saveWaitlistEmail(email, plan) {
+    if (!this.isInitialized) return;
+    const { collection, addDoc } = this._ops;
+    try {
+      await addDoc(collection(this.db, "waitlist"), {
+        email,
+        plan,
+        created_at: Date.now()
+      });
+    } catch (e) {
+      console.error("Firebase Waitlist Error:", e);
+    }
+  },
+
   async fetchSubmissions(user) {
     if (!this.isInitialized) {
       const localMap = window.AppState.submissions;

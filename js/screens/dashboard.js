@@ -320,6 +320,7 @@ window.DashboardScreen = {
         const action = el.dataset.nav;
         if (action === 'nouvelle') window.navigate('Submission');
         else if (action === 'dashboard') window.navigate('Dashboard');
+        else if (action === 'pricing') window.navigate('Pricing');
       });
     });
 

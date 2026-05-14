@@ -30,6 +30,7 @@ window.navigate = function(nomEcran, params = {}) {
     Dashboard:  window.DashboardScreen,
     Submission: window.SubmissionScreen,
     Results:    window.ResultsScreen,
+    Pricing:    window.PricingScreen,
   };
 
   const ecran = ECRANS[nomEcran];
@@ -270,6 +271,12 @@ window.renderSidebar = function(itemActif) {
             }
           </div>
         `).join('')}
+
+        <!-- Lien Pricing / Premium -->
+        <div class="sidebar-nav-item ${itemActif === 'pricing' ? 'active' : ''}" style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;" data-nav="pricing" role="button" tabindex="0">
+          <span class="sidebar-nav-icon" style="color: #8B72FF;">✨</span>
+          <span style="font-weight: 600; background: linear-gradient(90deg, #8B72FF, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Premium</span>
+        </div>
       </nav>
 
       <!-- Profil utilisateur (bas de sidebar) -->

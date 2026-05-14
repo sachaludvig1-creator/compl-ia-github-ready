@@ -221,6 +221,7 @@ window.SubmissionScreen = {
     document.querySelectorAll('[data-nav]').forEach(el => {
       el.addEventListener('click', () => {
         if (el.dataset.nav === 'dashboard') window.navigate('Dashboard');
+        else if (el.dataset.nav === 'pricing') window.navigate('Pricing');
       });
     });
     document.getElementById('btn-switch-profil')?.addEventListener('click', () => window.navigate('Login'));

@@ -412,6 +412,7 @@ window.ResultsScreen = {
       el.addEventListener('click', () => {
         if (el.dataset.nav === 'dashboard') window.navigate('Dashboard');
         else if (el.dataset.nav === 'nouvelle') window.navigate('Submission');
+        else if (el.dataset.nav === 'pricing') window.navigate('Pricing');
       });
     });
     document.getElementById('btn-switch-profil')?.addEventListener('click', () => window.navigate('Login'));
