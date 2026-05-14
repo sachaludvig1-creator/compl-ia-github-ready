@@ -233,10 +233,10 @@ window.PricingScreen = {
 
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay pricing-modal-overlay';
-    overlay.innerHTML = \`
+    overlay.innerHTML = `
       <div class="modal pricing-modal">
         <div class="modal-header">
-          <h2>\${title}</h2>
+          <h2>${title}</h2>
           <button class="modal-close" id="waitlist-close">✕</button>
         </div>
         <div class="modal-body">
@@ -245,12 +245,12 @@ window.PricingScreen = {
           </p>
           <div class="form-group">
             <label class="form-label">Adresse email</label>
-            <input type="email" id="waitlist-email" class="form-input dark-input" placeholder="votre@email.com" required autocomplete="email" value="\${window.AppState.currentUser?.email || ''}">
+            <input type="email" id="waitlist-email" class="form-input dark-input" placeholder="votre@email.com" required autocomplete="email" value="${window.AppState.currentUser?.email || ''}">
           </div>
           <div class="plan-recap">
             <div class="plan-recap-title">Votre sélection :</div>
-            <div class="plan-recap-plan">\${planText}</div>
-            <div class="plan-recap-offer">\${offerText}</div>
+            <div class="plan-recap-plan">${planText}</div>
+            <div class="plan-recap-offer">${offerText}</div>
           </div>
         </div>
         <div class="modal-footer">
@@ -258,7 +258,7 @@ window.PricingScreen = {
           <button class="btn btn-primary" id="waitlist-submit" style="min-width:180px;">S'inscrire à la liste d'attente</button>
         </div>
       </div>
-    \`;
+    `;
 
     document.body.appendChild(overlay);
 
