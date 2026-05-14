@@ -1,8 +1,8 @@
 'use strict';
 
 /* ===================================================
-   pricing.js — Écran Pricing & Modale de Waitlist
-   (Thème Dark Premium natif)
+   pricing.js — Écran Pricing 
+   (Thème Dark Premium 3-columns)
    =================================================== */
 
 window.PricingScreen = {
@@ -14,209 +14,188 @@ window.PricingScreen = {
         <div class="main-content">
           <div class="pricing-content-wrapper">
           
-          <!-- HERO -->
-          <div class="pricing-hero">
-            <h1>Commencez gratuitement</h1>
-            <p>Découvrez Compl-IA sans engagement. Passez à Premium quand vous êtes prêt pour débloquer toutes les fonctionnalités avancées.</p>
-          </div>
-
-          <!-- CARDS -->
-          <div class="pricing-cards-container">
-            
-            <!-- Plan Gratuit -->
-            <div class="pricing-card plan-free">
-              <div class="card-header">
-                <h3>Gratuit</h3>
-                <p>Pour découvrir le service</p>
-              </div>
-              <div class="card-price">
-                <h2>0€</h2>
-                <span>Toujours gratuit</span>
-              </div>
-              <ul class="card-features">
-                <li><span class="check-icon">✓</span> 5 utilisations par mois</li>
-                <li><span class="check-icon">✓</span> Accès aux fonctionnalités de base</li>
-                <li><span class="check-icon">✓</span> Support communautaire</li>
-                <li><span class="check-icon">✓</span> Mises à jour gratuites</li>
-                <li><span class="check-icon">✓</span> Documentation complète</li>
-              </ul>
-              <button class="btn btn-outline-dark btn-pricing" data-plan="free">
-                Commencer gratuitement
-              </button>
+            <!-- HERO -->
+            <div class="pricing-hero">
+              <h1>Choisissez le plan qui vous correspond</h1>
+              <p>Des solutions adaptées à chaque étape de vos validations réglementaires IA.</p>
             </div>
 
-            <!-- Plan Premium -->
-            <div class="pricing-card plan-premium">
-              <div class="badge-recommended">Recommandé</div>
-              <div class="card-header">
-                <h3>Premium</h3>
-                <p>Pour une utilisation professionnelle</p>
+            <!-- CARDS -->
+            <div class="pricing-cards-container">
+              
+              <!-- Plan GRATUIT -->
+              <div class="pricing-card plan-free">
+                <div>
+                  <div class="plan-badge badge-decouverte">Découverte</div>
+                  <div class="card-header">
+                    <h3>Gratuit</h3>
+                    <p>Pour tester Compl-IA avant de s'engager</p>
+                  </div>
+                  <div class="card-price">
+                    <h2>0 €</h2>
+                    <span>/ toujours</span>
+                  </div>
+                  <div class="plan-limits">
+                    1 utilisateur · 3 analyses / mois
+                  </div>
+                  
+                  <div class="features-section-title">INCLUS</div>
+                  <ul class="card-features">
+                    <li><span class="check-icon">✓</span> Analyse des risques réglementaires IA</li>
+                    <li><span class="check-icon">✓</span> 1 reformulation par analyse</li>
+                    <li><span class="check-icon">✓</span> Références réglementaires citées<br>(CE 1223/2009, ARPP, DGCCRF)</li>
+                    <li><span class="check-icon">✓</span> Niveau de risque : OK / À risque / Non conforme</li>
+                  </ul>
+
+                  <div class="features-section-title">NON INCLUS</div>
+                  <ul class="card-features">
+                    <li class="not-included"><span class="minus-icon">—</span> Reformulations multiples et éditables</li>
+                    <li class="not-included"><span class="minus-icon">—</span> Tableau de suivi des validations</li>
+                    <li class="not-included"><span class="minus-icon">—</span> Bibliothèque de claims validés</li>
+                    <li class="not-included"><span class="minus-icon">—</span> Envoi au service juridique</li>
+                    <li class="not-included"><span class="minus-icon">—</span> Invitation d'un collaborateur</li>
+                  </ul>
+                </div>
+                
+                <button class="btn btn-outline-dark btn-pricing" data-plan="free" onclick="window.navigate('Submission')">
+                  Commencer gratuitement
+                </button>
               </div>
-              <div class="card-price">
-                <h2>49€</h2>
-                <span>par mois</span>
+
+              <!-- Plan PRO -->
+              <div class="pricing-card plan-premium">
+                <div>
+                  <div class="plan-badge badge-recommande">Recommandé</div>
+                  <div class="card-header">
+                    <h3>Pro</h3>
+                    <p>Pour les équipes marketing et réglementaires en binôme</p>
+                  </div>
+                  <div class="card-price">
+                    <h2>59,99 €</h2>
+                    <span>/ mois</span>
+                  </div>
+                  <div class="plan-limits">
+                    2 utilisateurs · Analyses illimitées
+                  </div>
+                  
+                  <div class="features-section-title">TOUT LE GRATUIT, PLUS</div>
+                  <ul class="card-features">
+                    <li><span class="check-icon">✓</span> Analyses illimitées</li>
+                    <li><span class="check-icon">✓</span> Reformulations multiples, éditables en direct</li>
+                    <li><span class="check-icon">✓</span> Comparaison avant / après optimisation</li>
+                    <li><span class="check-icon">✓</span> Tableau de suivi des validations</li>
+                    <li><span class="check-icon">✓</span> Bibliothèque de claims validés réutilisables</li>
+                    <li><span class="check-icon">✓</span> Envoi intégré au service juridique</li>
+                    <li><span class="check-icon">✓</span> Invitation d'1 collaborateur</li>
+                    <li><span class="check-icon">✓</span> Export PDF du rapport d'analyse</li>
+                  </ul>
+
+                  <div class="features-section-title">NON INCLUS</div>
+                  <ul class="card-features">
+                    <li class="not-included"><span class="minus-icon">—</span> Multi-utilisateurs au-delà de 2</li>
+                    <li class="not-included"><span class="minus-icon">—</span> Gestion des rôles avancée</li>
+                  </ul>
+                </div>
+
+                <button class="btn btn-primary btn-pricing btn-glow" data-plan="pro">
+                  Essayer Pro
+                </button>
               </div>
-              <ul class="card-features">
-                <li><span class="check-icon">✓</span> Utilisations illimitées</li>
-                <li><span class="check-icon">✓</span> Toutes les fonctionnalités avancées</li>
-                <li><span class="check-icon">✓</span> Support prioritaire 24/7</li>
-                <li><span class="check-icon">✓</span> Mises à jour automatiques</li>
-                <li><span class="check-icon">✓</span> Analyses avancées et statistiques</li>
-                <li><span class="check-icon">✓</span> Intégrations premium</li>
-                <li><span class="check-icon">✓</span> API privée</li>
-                <li><span class="check-icon">✓</span> Garantie de remboursement 30 jours</li>
-              </ul>
-              <button class="btn btn-primary btn-pricing btn-glow" data-plan="premium">
-                Passer à Premium
-              </button>
+
+              <!-- Plan TEAM -->
+              <div class="pricing-card plan-team">
+                <div>
+                  <div class="plan-badge badge-equipes">Équipes</div>
+                  <div class="card-header">
+                    <h3>Team</h3>
+                    <p>Pour les marques qui déploient Compl-IA à l'échelle d'une équipe</p>
+                  </div>
+                  <div class="card-price">
+                    <h2>149,99 €</h2>
+                    <span>/ mois</span>
+                  </div>
+                  <div class="plan-limits">
+                    10 utilisateurs · Analyses illimitées
+                  </div>
+                  
+                  <div class="features-section-title">TOUT LE PRO, PLUS</div>
+                  <ul class="card-features">
+                    <li><span class="check-icon">✓</span> Jusqu'à 10 sièges</li>
+                    <li><span class="check-icon">✓</span> Gestion des rôles : soumetteur / validateur / informé</li>
+                    <li><span class="check-icon">✓</span> Tableau de bord multi-utilisateurs centralisé</li>
+                    <li><span class="check-icon">✓</span> Distinction des dates : soumission / retour souhaité / validation définitive</li>
+                    <li><span class="check-icon">✓</span> Fil de commentaires par soumission</li>
+                    <li><span class="check-icon">✓</span> Vérification multi-pays simultanée</li>
+                    <li><span class="star-icon">⭐</span> Intégration des guidelines internes de la marque (bêta)</li>
+                    <li><span class="check-icon">✓</span> Onboarding dédié</li>
+                  </ul>
+                </div>
+
+                <button class="btn btn-outline-dark btn-pricing" data-plan="team">
+                  Contacter l'équipe
+                </button>
+              </div>
+
             </div>
 
-          </div>
-
-          <div class="pricing-reinsurance">
-            <p>✓ Commencez gratuitement, sans carte bancaire</p>
-            <p>✓ Passez à Premium à tout moment · Garantie de remboursement 30 jours</p>
-          </div>
-
-          <!-- TABLEAU COMPARATIF -->
-          <div class="pricing-comparison">
-            <h2>Comparaison détaillée</h2>
-            <div class="comparison-table-wrapper">
-              <table class="comparison-table">
-                <thead>
-                  <tr>
-                    <th>Fonctionnalités</th>
-                    <th>Gratuit</th>
-                    <th class="th-premium">Premium</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Utilisations par mois</td>
-                    <td>5</td>
-                    <td class="td-premium">Illimité</td>
-                  </tr>
-                  <tr>
-                    <td>Fonctionnalités de base</td>
-                    <td>✓</td>
-                    <td class="td-premium">✓</td>
-                  </tr>
-                  <tr>
-                    <td>Fonctionnalités avancées</td>
-                    <td class="text-muted">✕</td>
-                    <td class="td-premium">✓</td>
-                  </tr>
-                  <tr>
-                    <td>Analyses et statistiques</td>
-                    <td class="text-muted">✕</td>
-                    <td class="td-premium">✓</td>
-                  </tr>
-                  <tr>
-                    <td>Support prioritaire 24/7</td>
-                    <td class="text-muted">✕</td>
-                    <td class="td-premium">✓</td>
-                  </tr>
-                  <tr>
-                    <td>API privée</td>
-                    <td class="text-muted">✕</td>
-                    <td class="td-premium">✓</td>
-                  </tr>
-                  <tr>
-                    <td>Intégrations premium</td>
-                    <td class="text-muted">✕</td>
-                    <td class="td-premium">✓</td>
-                  </tr>
-                  <tr>
-                    <td>Support</td>
-                    <td>Communautaire</td>
-                    <td class="td-premium">Prioritaire</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- FAQ -->
-          <div class="pricing-faq">
-            <h2>Questions fréquentes</h2>
-            <div class="faq-list">
-              <div class="faq-item">
-                <button class="faq-question">
-                  <span>Puis-je passer de Gratuit à Premium à tout moment ?</span>
-                  <span class="faq-chevron">▼</span>
-                </button>
-                <div class="faq-answer">
-                  <p>Oui, vous pouvez upgrader à tout moment. Vos données et paramètres seront automatiquement transférés vers votre compte Premium.</p>
+            <!-- BOTTOM REASSURANCE -->
+            <div class="reassurance-grid">
+              <div class="reassurance-item">
+                <div class="reassurance-icon">🛡️</div>
+                <div class="reassurance-text">
+                  <h4>Sécurisez vos claims</h4>
+                  <p>Réduisez les risques réglementaires</p>
                 </div>
               </div>
-              <div class="faq-item">
-                <button class="faq-question">
-                  <span>Que se passe-t-il si j'atteins la limite gratuite ?</span>
-                  <span class="faq-chevron">▼</span>
-                </button>
-                <div class="faq-answer">
-                  <p>Vous recevrez une notification quand vous approchez de votre limite de 5 utilisations. Vous pourrez alors passer à Premium ou attendre le renouvellement mensuel.</p>
+              <div class="reassurance-item">
+                <div class="reassurance-icon">⏱️</div>
+                <div class="reassurance-text">
+                  <h4>Gagnez du temps</h4>
+                  <p>Analyses IA en quelques secondes</p>
                 </div>
               </div>
-              <div class="faq-item">
-                <button class="faq-question">
-                  <span>Puis-je annuler mon abonnement Premium ?</span>
-                  <span class="faq-chevron">▼</span>
-                </button>
-                <div class="faq-answer">
-                  <p>Oui, vous pouvez annuler à tout moment. Vous garderez l'accès Premium jusqu'à la fin de votre période de facturation, puis repasserez automatiquement en version gratuite.</p>
+              <div class="reassurance-item">
+                <div class="reassurance-icon">👥</div>
+                <div class="reassurance-text">
+                  <h4>Collaborez plus efficacement</h4>
+                  <p>Partage et suivi simplifiés</p>
                 </div>
               </div>
-              <div class="faq-item">
-                <button class="faq-question">
-                  <span>Mes données seront-elles conservées ?</span>
-                  <span class="faq-chevron">▼</span>
-                </button>
-                <div class="faq-answer">
-                  <p>Absolument. Nous respectons la confidentialité absolue de vos données (chiffrement de bout en bout). Aucun modèle public n'est entraîné sur vos analyses.</p>
-                </div>
-              </div>
-              <div class="faq-item">
-                <button class="faq-question">
-                  <span>Quand Compl-IA sera-t-il officiellement disponible ?</span>
-                  <span class="faq-chevron">▼</span>
-                </button>
-                <div class="faq-answer">
-                  <p>L'application est actuellement en phase Bêta Privée. Rejoignez la liste d'attente pour être notifié de l'ouverture publique et bénéficier de tarifs préférentiels.</p>
+              <div class="reassurance-item">
+                <div class="reassurance-icon">✅</div>
+                <div class="reassurance-text">
+                  <h4>Conforme & à jour</h4>
+                  <p>Références réglementaires incluses</p>
                 </div>
               </div>
             </div>
-          </div>
 
-        </div>
+            <!-- FOOTER -->
+            <div class="pricing-footer-contact">
+              Besoin d'un plan sur-mesure ? <a href="#">Contactez-nous →</a>
+            </div>
+
+          </div>
         </div>
       </div>
     `;
   },
 
   init() {
-    /* --- Initialisation de la FAQ --- */
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-      const btn = item.querySelector('.faq-question');
-      btn.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-        // Fermer tous les autres
-        faqItems.forEach(i => i.classList.remove('active'));
-        // Basculer l'état
-        if (!isActive) item.classList.add('active');
+    /* --- Gestion des boutons de plans --- */
+    const planButtons = document.querySelectorAll('.btn-pricing[data-plan]');
+    planButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const plan = btn.dataset.plan;
+        if (plan === 'pro') {
+          this.openWaitlistModal('Pro', '59,99€');
+        } else if (plan === 'team') {
+          this.openWaitlistModal('Team', '149,99€');
+        }
       });
     });
 
-    /* --- Initialisation Modale Waitlist --- */
-    const buttons = document.querySelectorAll('.btn-pricing');
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        this.openWaitlistModal(btn.dataset.plan);
-      });
-    });
-
-    /* --- Navigation latérale --- */
+    /* Navigation latérale / Mobile topbar */
     document.querySelectorAll('[data-nav]').forEach(el => {
       el.addEventListener('click', () => {
         const action = el.dataset.nav;
@@ -227,92 +206,84 @@ window.PricingScreen = {
     });
   },
 
-  openWaitlistModal(plan) {
-    const isPremium = plan === 'premium';
-    const title = isPremium ? 'Pré-inscription - Premium' : 'Pré-inscription - Gratuit';
-    const planText = isPremium ? 'Premium · 49€ par mois' : 'Gratuit · 0€ Toujours gratuit';
-    const offerText = isPremium ? 'Prix de lancement avec -20% : 39€/mois' : 'Gratuit, aucune carte bancaire requise';
+  /* --- MODALE WAITLIST / UPGRADE --- */
+  openWaitlistModal(planName, price) {
+    const user = window.AppState.currentUser || {};
+    const email = user.email || '';
 
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay pricing-modal-overlay';
-    overlay.innerHTML = `
-      <div class="modal pricing-modal">
-        <div class="modal-header">
-          <h2>${title}</h2>
+    
+    // Calcul de l'offre de lancement (-20%)
+    const originalPrice = parseFloat(price.replace('€', '').replace(',', '.'));
+    const discountedPrice = Math.round(originalPrice * 0.8) + '€';
+    
+    overlay.innerHTML = \`
+      <div class="modal pricing-modal" style="max-width: 480px; padding: 0;">
+        <div class="modal-header" style="padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+          <h2 style="font-size: 20px; font-weight: 600;">Pré-inscription - \${planName}</h2>
           <button class="modal-close" id="waitlist-close">✕</button>
         </div>
-        <div class="modal-body">
+        
+        <div class="modal-body" style="padding: 24px;">
           <p class="modal-desc">
             Ce plan sera bientôt disponible ! Inscrivez-vous maintenant pour bénéficier d'une réduction exclusive de 20% lors du lancement.
           </p>
-          <div class="form-group">
-            <label class="form-label">Adresse email</label>
-            <input type="email" id="waitlist-email" class="form-input dark-input" placeholder="votre@email.com" required autocomplete="email" value="${window.AppState.currentUser?.email || ''}">
+          
+          <div class="form-group" style="margin-bottom: 24px;">
+            <label style="color:#A1A1AA; font-size:13px; margin-bottom:8px; display:block;">Adresse email</label>
+            <input type="email" id="waitlist-email" class="input-field dark-input" value="\${email}" placeholder="votre@email.com" />
           </div>
+          
           <div class="plan-recap">
             <div class="plan-recap-title">Votre sélection :</div>
-            <div class="plan-recap-plan">${planText}</div>
-            <div class="plan-recap-offer">${offerText}</div>
+            <div class="plan-recap-plan">\${planName} · \${price} par mois</div>
+            <div class="plan-recap-offer">Prix de lancement avec -20% : \${discountedPrice}/mois</div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button class="btn btn-outline-dark" id="waitlist-cancel">Annuler</button>
-          <button class="btn btn-primary" id="waitlist-submit" style="min-width:180px;">S'inscrire à la liste d'attente</button>
+        
+        <div class="modal-footer" style="padding: 24px; display: flex; justify-content: space-between; gap: 16px;">
+          <button class="btn btn-outline-dark" id="waitlist-cancel" style="flex: 1;">Annuler</button>
+          <button class="btn btn-primary" id="waitlist-submit" style="flex: 1;">S'inscrire à la liste d'attente</button>
         </div>
       </div>
-    `;
+    \`;
 
     document.body.appendChild(overlay);
 
-    // Animation d'entrée
-    requestAnimationFrame(() => overlay.classList.add('visible'));
+    const close = () => overlay.remove();
+    document.getElementById('waitlist-close').addEventListener('click', close);
+    document.getElementById('waitlist-cancel').addEventListener('click', close);
 
-    const closeModal = () => {
-      overlay.classList.remove('visible');
-      setTimeout(() => overlay.remove(), 300);
-    };
-
-    document.getElementById('waitlist-close').addEventListener('click', closeModal);
-    document.getElementById('waitlist-cancel').addEventListener('click', closeModal);
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
-
-    document.getElementById('waitlist-submit').addEventListener('click', async () => {
-      const emailInput = document.getElementById('waitlist-email');
-      const email = emailInput.value.trim();
-      if (!email || !email.includes('@')) {
-        window.showToast('Veuillez entrer une adresse email valide.', 4000);
-        emailInput.focus();
+    const submitBtn = document.getElementById('waitlist-submit');
+    submitBtn.addEventListener('click', async () => {
+      const emailVal = document.getElementById('waitlist-email').value;
+      if (!emailVal || !emailVal.includes('@')) {
+        window.showToast('Veuillez entrer un email valide.', 'error');
         return;
       }
 
-      const btnSubmit = document.getElementById('waitlist-submit');
-      const originalText = btnSubmit.textContent;
-      btnSubmit.innerHTML = '<span class="spinner-small"></span> Enregistrement...';
-      btnSubmit.disabled = true;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Inscription...';
 
       try {
-        // 1. Sauvegarde Firebase
-        if (window.FirebaseService) {
-          await window.FirebaseService.saveWaitlistEmail(email, plan);
-        }
-
-        // 2. Envoi Email via API Vercel
-        const response = await fetch('/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, plan })
-        });
-
-        // Même si le mail échoue (ex: pas d'API KEY en local), on confirme si l'inscription en DB a marché
-        // On ne bloque pas l'UX utilisateur.
+        await window.FirebaseService.saveWaitlistEmail(emailVal, planName);
         
-        window.showToast('✅ Pré-inscription confirmée ! Consultez votre boîte de réception.', 5000);
-        closeModal();
-      } catch (err) {
-        console.error('Erreur waitlist:', err);
-        window.showToast('Erreur lors de l\'inscription. Veuillez réessayer.', 4000);
-        btnSubmit.textContent = originalText;
-        btnSubmit.disabled = false;
+        if (!window.location.hostname.includes('localhost')) {
+          await fetch('/api/waitlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: emailVal, plan: planName })
+          });
+        }
+        
+        close();
+        window.showToast('🎉 Inscription confirmée ! Vous serez contacté très prochainement.');
+      } catch (e) {
+        console.error(e);
+        window.showToast('Erreur lors de l\\'inscription.', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'S\\'inscrire à la liste d\\'attente';
       }
     });
   }
