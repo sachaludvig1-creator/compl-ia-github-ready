@@ -1484,14 +1484,18 @@
     flex-shrink: 0;
   }
 
-  /* KPIs en grid 2x2 */
+  /* KPIs sur une seule ligne (scroll horizontal) */
   .metrics-grid {
-    flex-wrap: wrap !important;
-    gap: 12px !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px !important;
+    width: 100%;
   }
   .metric-card {
-    flex: 1 1 calc(50% - 12px) !important;
-    min-width: calc(50% - 12px) !important;
+    flex: 0 0 120px !important;
+    min-width: 120px !important;
     padding: var(--sp-3) !important;
   }
   
@@ -1624,6 +1628,37 @@
   }
   #results-layout-container.show-editeur .results-right {
     display: block;
+  }
+
+  /* Score au-dessus de Temps économisé */
+  .results-summary-top {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 16px !important;
+  }
+  .results-summary-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+  .results-refs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Carte OK (Ce qui est conforme) alignée à gauche */
+  .results-ok-card {
+    text-align: left !important;
+  }
+  .results-ok-card .results-ok-title {
+    text-align: left !important;
+  }
+  .results-ok-card .results-ok-desc {
+    margin: 0 !important;
   }
 
   /* Chatbot en bottom sheet */
