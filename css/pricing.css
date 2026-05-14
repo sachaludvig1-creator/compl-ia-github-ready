@@ -1,18 +1,17 @@
 /* ===================================================
-   pricing.css — Thème Dark Premium 3-columns
+   pricing.css — Thème Clair (DA Compl-IA) 3-columns
    =================================================== */
 
-/* Surcharge du fond global pour la page pricing */
 .pricing-screen {
-  background-color: #0F0C1B !important; /* Très sombre, teinte violette */
-  color: #FFFFFF !important;
+  background-color: var(--color-bg) !important;
+  color: var(--color-text-primary) !important;
   min-height: 100vh;
 }
 
 .pricing-screen .mobile-topbar {
-  background-color: #0F0C1B !important;
-  color: #FFFFFF !important;
-  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  background-color: var(--color-bg) !important;
+  color: var(--color-text-primary) !important;
+  border-bottom: 1px solid var(--color-border) !important;
 }
 
 .pricing-content-wrapper {
@@ -34,12 +33,12 @@
   font-weight: 700;
   margin-bottom: 12px;
   letter-spacing: -0.02em;
-  color: #FFFFFF;
+  color: var(--color-text-primary);
 }
 
 .pricing-hero p {
   font-size: 16px;
-  color: #94A3B8;
+  color: var(--color-text-secondary);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.5;
@@ -57,15 +56,15 @@
 .pricing-card {
   flex: 1;
   max-width: 380px;
-  background: #151221;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
   padding: 32px;
   display: flex;
   flex-direction: column;
   position: relative;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-sm);
   animation: slideUpFade 0.6s ease-out forwards;
   opacity: 0;
   transform: translateY(20px);
@@ -76,50 +75,52 @@
 .pricing-card:nth-child(3) { animation-delay: 0.3s; }
 
 .pricing-card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  border-color: var(--color-border-focus);
+  box-shadow: var(--shadow-md);
   transform: translateY(-4px);
 }
 
 /* Card Pro (Recommandée) */
 .plan-premium {
-  border: 1px solid rgba(107, 78, 255, 0.6);
-  box-shadow: 0 0 30px rgba(107, 78, 255, 0.15);
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-md);
   transform: scale(1.02) translateY(0);
-  background: linear-gradient(180deg, #1A1629 0%, #151221 100%);
+  background: var(--color-card);
   z-index: 2;
 }
 
 .plan-premium:hover {
-  border: 1px solid rgba(107, 78, 255, 0.9);
-  box-shadow: 0 0 50px rgba(107, 78, 255, 0.25);
+  border: 2px solid var(--color-primary-dark);
+  box-shadow: var(--shadow-lg);
   transform: scale(1.02) translateY(-4px);
 }
 
 /* --- BADGES TOP --- */
 .plan-badge {
   display: inline-block;
-  padding: 4px 12px;
+  padding: 6px 14px;
   border-radius: 100px;
   font-size: 11px;
   font-weight: 600;
   margin-bottom: 24px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .badge-decouverte {
-  background: rgba(255, 255, 255, 0.08);
-  color: #E2E8F0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
 }
 
 .badge-recommande {
-  background: #6B4EFF;
+  background: var(--color-primary);
   color: #FFFFFF;
 }
 
 .badge-equipes {
-  background: #F1F5F9;
-  color: #0F172A;
+  background: #E0F2FE; /* Bleu très clair */
+  color: #0369A1; /* Bleu foncé */
 }
 
 /* --- CARD HEADER --- */
@@ -127,14 +128,14 @@
   font-size: 24px;
   font-weight: 600;
   margin-bottom: 8px;
-  color: #FFFFFF;
+  color: var(--color-text-primary);
 }
 
 .card-header p {
   font-size: 13px;
-  color: #94A3B8;
+  color: var(--color-text-secondary);
   margin-bottom: 24px;
-  min-height: 40px; /* Alignement */
+  min-height: 40px;
 }
 
 /* --- PRICE --- */
@@ -149,13 +150,13 @@
   font-size: 42px;
   font-weight: 700;
   line-height: 1;
-  color: #FFFFFF;
+  color: var(--color-text-primary);
   margin: 0;
 }
 
 .card-price span {
   font-size: 14px;
-  color: #94A3B8;
+  color: var(--color-text-muted);
 }
 
 /* --- LIMITS BADGE --- */
@@ -163,11 +164,12 @@
   display: inline-block;
   padding: 6px 16px;
   border-radius: 100px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
   font-size: 12px;
-  color: #CBD5E1;
+  color: var(--color-text-secondary);
   margin-bottom: 32px;
+  font-weight: 500;
 }
 
 /* --- FEATURES --- */
@@ -176,7 +178,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #E2E8F0;
+  color: var(--color-text-muted);
   margin-bottom: 16px;
 }
 
@@ -189,7 +191,7 @@
 
 .card-features li {
   font-size: 13px;
-  color: #CBD5E1;
+  color: var(--color-text-secondary);
   margin-bottom: 12px;
   display: flex;
   align-items: flex-start;
@@ -198,26 +200,26 @@
 }
 
 .card-features li.not-included {
-  color: #64748B;
+  color: var(--color-text-muted);
 }
 
 .check-icon {
-  color: #10B981; /* Vert émeraude */
+  color: var(--color-suggestion); /* Vert Compl-IA */
   font-weight: bold;
   flex-shrink: 0;
 }
 
 .plan-premium .check-icon {
-  color: #34D399; /* Vert un peu plus clair sur la carte pro */
+  color: var(--color-suggestion);
 }
 
 .card-features .star-icon {
-  color: #F59E0B; /* Étoile or */
+  color: #F59E0B;
   flex-shrink: 0;
 }
 
 .minus-icon {
-  color: #64748B;
+  color: var(--color-text-muted);
   flex-shrink: 0;
   font-weight: bold;
 }
@@ -228,32 +230,33 @@
   padding: 14px;
   font-size: 14px;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
   margin-top: auto;
 }
 
 .btn-outline-dark {
-  background: rgba(255, 255, 255, 0.04);
-  color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
 }
 
 .btn-outline-dark:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--color-bg-secondary);
+  border-color: var(--color-text-muted);
 }
 
 .btn-primary.btn-glow {
-  background: linear-gradient(90deg, #6B4EFF 0%, #8B72FF 100%);
+  background: var(--color-primary);
   color: #FFFFFF;
   border: none;
-  box-shadow: 0 4px 15px rgba(107, 78, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(107, 78, 255, 0.25);
 }
 
 .btn-primary.btn-glow:hover {
-  box-shadow: 0 6px 20px rgba(107, 78, 255, 0.6);
+  background: var(--color-primary-dark);
+  box-shadow: 0 6px 16px rgba(107, 78, 255, 0.35);
   transform: translateY(-2px);
 }
 
@@ -263,8 +266,8 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   padding-top: 40px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 40px;
+  border-top: 1px solid var(--color-border);
+  margin-bottom: 60px;
 }
 
 .reassurance-item {
@@ -275,40 +278,300 @@
 
 .reassurance-icon {
   font-size: 24px;
-  color: #8B72FF;
+  color: var(--color-primary);
   flex-shrink: 0;
 }
 
 .reassurance-text h4 {
   font-size: 14px;
   font-weight: 600;
-  color: #E2E8F0;
+  color: var(--color-text-primary);
   margin-bottom: 4px;
 }
 
 .reassurance-text p {
   font-size: 12px;
-  color: #94A3B8;
+  color: var(--color-text-secondary);
   margin: 0;
   line-height: 1.4;
+}
+
+/* --- COMPARISON TABLE --- */
+.pricing-comparison {
+  margin-bottom: 80px;
+}
+
+.pricing-comparison h2 {
+  text-align: center;
+  font-size: var(--font-2xl);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--sp-8);
+  color: var(--color-text-primary);
+}
+
+.comparison-table-wrapper {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border-light);
+  font-size: var(--font-sm);
+}
+
+.comparison-table th {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+}
+
+.comparison-table td {
+  color: var(--color-text-secondary);
+}
+
+.comparison-table th:nth-child(2),
+.comparison-table td:nth-child(2),
+.comparison-table th:nth-child(3),
+.comparison-table td:nth-child(3),
+.comparison-table th:nth-child(4),
+.comparison-table td:nth-child(4) {
+  text-align: center;
+  width: 150px;
+}
+
+.th-premium, .td-premium {
+  background: var(--color-primary-50) !important;
+}
+
+.td-premium {
+  color: var(--color-primary-dark) !important;
+  font-weight: var(--weight-medium);
+}
+
+.text-muted {
+  color: var(--color-text-muted) !important;
+}
+
+/* --- FAQ --- */
+.pricing-faq {
+  margin-bottom: 80px;
+}
+
+.pricing-faq h2 {
+  text-align: center;
+  font-size: var(--font-2xl);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--sp-8);
+  color: var(--color-text-primary);
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: box-shadow var(--transition-base);
+}
+
+.faq-item:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.faq-question {
+  width: 100%;
+  text-align: left;
+  padding: 20px 24px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: var(--font-md);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-chevron {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  transition: transform 0.3s ease;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: var(--color-card);
+}
+
+.faq-answer p {
+  padding: 0 24px 24px 24px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-sm);
+  line-height: 1.6;
+}
+
+.faq-item.active .faq-chevron {
+  transform: rotate(180deg);
+}
+
+.faq-item.active .faq-answer {
+  max-height: 200px;
 }
 
 /* --- FOOTER CONTACT --- */
 .pricing-footer-contact {
   text-align: center;
   font-size: 14px;
-  color: #94A3B8;
+  color: var(--color-text-secondary);
+  padding-top: 40px;
+  border-top: 1px solid var(--color-border);
 }
 
 .pricing-footer-contact a {
-  color: #8B72FF;
+  color: var(--color-primary);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
 }
 
 .pricing-footer-contact a:hover {
-  color: #A78BFF;
+  color: var(--color-primary-dark);
+}
+
+/* --- WAITLIST MODAL (UI AMÉLIORÉE) --- */
+.pricing-modal-overlay {
+  background: rgba(20, 17, 42, 0.4) !important;
+  backdrop-filter: blur(8px);
+}
+
+.pricing-modal {
+  background: var(--color-card) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 24px !important;
+  color: var(--color-text-primary) !important;
+  box-shadow: var(--shadow-xl) !important;
+  overflow: hidden;
+}
+
+.pricing-modal .modal-header {
+  padding: 32px 32px 24px 32px !important;
+  border-bottom: none !important;
+}
+
+.pricing-modal .modal-header h2 {
+  color: var(--color-text-primary) !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+}
+
+.pricing-modal .modal-close {
+  color: var(--color-text-muted) !important;
+  background: var(--color-bg-secondary);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.pricing-modal .modal-close:hover {
+  color: var(--color-text-primary) !important;
+  background: var(--color-border-light) !important;
+}
+
+.pricing-modal .modal-body {
+  padding: 0 32px 32px 32px !important;
+}
+
+.pricing-modal .modal-desc {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.pricing-modal .input-field {
+  background: var(--color-bg) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text-primary) !important;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.pricing-modal .input-field:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 4px var(--color-primary-100) !important;
+}
+
+.plan-recap {
+  background: var(--color-primary-50);
+  border: 1px solid var(--color-primary-100);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.plan-recap-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.plan-recap-plan {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.plan-recap-offer {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.pricing-modal .modal-footer {
+  padding: 24px 32px !important;
+  border-top: 1px solid var(--color-border-light) !important;
+  background: var(--color-bg) !important;
+  display: flex;
+  gap: 16px;
+}
+
+.pricing-modal .btn {
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
 }
 
 /* --- ANIMATIONS --- */
@@ -344,6 +607,18 @@
 
   .reassurance-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .comparison-table th, .comparison-table td {
+    padding: 12px;
+    font-size: 12px;
+  }
+  
+  .comparison-table th:nth-child(n+2),
+  .comparison-table td:nth-child(n+2) {
+    width: 80px;
   }
 }
 

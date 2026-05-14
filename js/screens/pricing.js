@@ -170,6 +170,128 @@ window.PricingScreen = {
               </div>
             </div>
 
+            <!-- TABLEAU COMPARATIF -->
+            <div class="pricing-comparison">
+              <h2>Comparaison détaillée</h2>
+              <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                  <thead>
+                    <tr>
+                      <th>Fonctionnalités</th>
+                      <th>Gratuit</th>
+                      <th class="th-premium">Pro</th>
+                      <th>Team</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Analyses par mois</td>
+                      <td>3 analyses</td>
+                      <td class="td-premium">Illimité</td>
+                      <td>Illimité</td>
+                    </tr>
+                    <tr>
+                      <td>Utilisateurs</td>
+                      <td>1</td>
+                      <td class="td-premium">2</td>
+                      <td>Jusqu'à 10</td>
+                    </tr>
+                    <tr>
+                      <td>Reformulations multiples</td>
+                      <td class="text-muted">✕</td>
+                      <td class="td-premium">✓</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <td>Comparaison avant/après</td>
+                      <td class="text-muted">✕</td>
+                      <td class="td-premium">✓</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <td>Tableau de suivi des validations</td>
+                      <td class="text-muted">✕</td>
+                      <td class="td-premium">✓</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <td>Bibliothèque de claims validés</td>
+                      <td class="text-muted">✕</td>
+                      <td class="td-premium">✓</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <td>Envoi au service juridique</td>
+                      <td class="text-muted">✕</td>
+                      <td class="td-premium">✓</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <td>Gestion des rôles (Soumetteur / Validateur)</td>
+                      <td class="text-muted">✕</td>
+                      <td class="text-muted td-premium">✕</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <td>Tableau de bord multi-utilisateurs</td>
+                      <td class="text-muted">✕</td>
+                      <td class="text-muted td-premium">✕</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <td>Intégration guidelines internes</td>
+                      <td class="text-muted">✕</td>
+                      <td class="text-muted td-premium">✕</td>
+                      <td>⭐ Bêta</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- FAQ -->
+            <div class="pricing-faq">
+              <h2>Questions fréquentes</h2>
+              <div class="faq-list">
+                <div class="faq-item">
+                  <button class="faq-question">
+                    <span>Puis-je passer de Gratuit à Pro à tout moment ?</span>
+                    <span class="faq-chevron">▼</span>
+                  </button>
+                  <div class="faq-answer">
+                    <p>Oui, vous pouvez upgrader à tout moment. Vos données et paramètres seront automatiquement transférés vers votre compte Pro sans interruption.</p>
+                  </div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-question">
+                    <span>Que se passe-t-il si j'atteins la limite de 3 analyses gratuites ?</span>
+                    <span class="faq-chevron">▼</span>
+                  </button>
+                  <div class="faq-answer">
+                    <p>Vous recevrez une notification une fois la limite atteinte. Vous pourrez alors souscrire au plan Pro pour débloquer les analyses illimitées, ou attendre le renouvellement de votre quota le mois suivant.</p>
+                  </div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-question">
+                    <span>Puis-je annuler mon abonnement ?</span>
+                    <span class="faq-chevron">▼</span>
+                  </button>
+                  <div class="faq-answer">
+                    <p>Absolument. Il n'y a aucun engagement de durée. Vous garderez l'accès à votre plan Premium jusqu'à la fin de votre période de facturation, puis repasserez automatiquement en version Découverte.</p>
+                  </div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-question">
+                    <span>Mes données sont-elles utilisées pour entraîner l'IA ?</span>
+                    <span class="faq-chevron">▼</span>
+                  </button>
+                  <div class="faq-answer">
+                    <p>Non, jamais. Nous garantissons la confidentialité totale de vos données et de vos claims. Aucun modèle public d'IA n'est entraîné avec vos contenus soumis sur Compl-IA.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- FOOTER -->
             <div class="pricing-footer-contact">
               Besoin d'un plan sur-mesure ? <a href="#">Contactez-nous →</a>
@@ -182,6 +304,19 @@ window.PricingScreen = {
   },
 
   init() {
+    /* --- Initialisation de la FAQ --- */
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const btn = item.querySelector('.faq-question');
+      if (btn) {
+        btn.addEventListener('click', () => {
+          const isActive = item.classList.contains('active');
+          faqItems.forEach(i => i.classList.remove('active'));
+          if (!isActive) item.classList.add('active');
+        });
+      }
+    });
+
     /* --- Gestion des boutons de plans --- */
     const planButtons = document.querySelectorAll('.btn-pricing[data-plan]');
     planButtons.forEach(btn => {
@@ -219,30 +354,30 @@ window.PricingScreen = {
     const discountedPrice = Math.round(originalPrice * 0.8) + '€';
     
     overlay.innerHTML = `
-      <div class="modal pricing-modal" style="max-width: 480px; padding: 0;">
-        <div class="modal-header" style="padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <h2 style="font-size: 20px; font-weight: 600;">Pré-inscription - ${planName}</h2>
+      <div class="modal pricing-modal">
+        <div class="modal-header">
+          <h2>Pré-inscription - ${planName}</h2>
           <button class="modal-close" id="waitlist-close">✕</button>
         </div>
         
-        <div class="modal-body" style="padding: 24px;">
+        <div class="modal-body">
           <p class="modal-desc">
             Ce plan sera bientôt disponible ! Inscrivez-vous maintenant pour bénéficier d'une réduction exclusive de 20% lors du lancement.
           </p>
           
-          <div class="form-group" style="margin-bottom: 24px;">
-            <label style="color:#A1A1AA; font-size:13px; margin-bottom:8px; display:block;">Adresse email</label>
-            <input type="email" id="waitlist-email" class="input-field dark-input" value="${email}" placeholder="votre@email.com" />
+          <div class="form-group">
+            <label style="color:var(--color-text-secondary); font-size:13px; margin-bottom:8px; display:block; font-weight: 500;">Adresse email</label>
+            <input type="email" id="waitlist-email" class="input-field" value="${email}" placeholder="votre@email.com" />
           </div>
           
           <div class="plan-recap">
-            <div class="plan-recap-title">Votre sélection :</div>
+            <div class="plan-recap-title">Votre sélection</div>
             <div class="plan-recap-plan">${planName} · ${price} par mois</div>
-            <div class="plan-recap-offer">Prix de lancement avec -20% : ${discountedPrice}/mois</div>
+            <div class="plan-recap-offer">Prix de lancement avec -20% : <strong>${discountedPrice}/mois</strong></div>
           </div>
         </div>
         
-        <div class="modal-footer" style="padding: 24px; display: flex; justify-content: space-between; gap: 16px;">
+        <div class="modal-footer">
           <button class="btn btn-outline-dark" id="waitlist-cancel" style="flex: 1;">Annuler</button>
           <button class="btn btn-primary" id="waitlist-submit" style="flex: 1;">S'inscrire à la liste d'attente</button>
         </div>
