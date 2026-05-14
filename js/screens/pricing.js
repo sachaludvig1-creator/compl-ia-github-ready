@@ -11,7 +11,8 @@ window.PricingScreen = {
       <div class="app-layout screen-enter pricing-screen">
         ${window.renderSidebar('pricing')}
 
-        <div class="main-content pricing-main">
+        <div class="main-content">
+          <div class="pricing-content-wrapper">
           
           <!-- HERO -->
           <div class="pricing-hero">
@@ -187,6 +188,7 @@ window.PricingScreen = {
             </div>
           </div>
 
+        </div>
         </div>
       </div>
     `;

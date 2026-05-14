@@ -1,24 +1,19 @@
 /* ===================================================
-   pricing.css — Thème Dark Premium pour la page Pricing
+   pricing.css — Thème Clair et Intégré pour Pricing
    =================================================== */
 
 .pricing-screen {
-  background-color: #0A0A0A !important;
-  color: #FFFFFF !important;
+  background-color: var(--color-bg) !important;
+  color: var(--color-text-primary) !important;
   min-height: 100vh;
 }
 
-/* On force la sidebar à rester sombre (déjà le cas) et on ajuste la topbar mobile */
-.pricing-screen .mobile-topbar {
-  background-color: #0A0A0A !important;
-  color: #FFFFFF !important;
-  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
-}
-
-.pricing-main {
+/* On utilise un div interne pour centrer le contenu, afin de ne pas casser le margin-left de .main-content */
+.pricing-content-wrapper {
   max-width: 1000px;
   margin: 0 auto;
   padding: 60px 24px;
+  width: 100%;
 }
 
 /* --- HERO --- */
@@ -28,15 +23,16 @@
 }
 
 .pricing-hero h1 {
-  font-size: 36px;
-  font-weight: 700;
-  margin-bottom: 16px;
+  font-size: var(--font-4xl);
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--sp-4);
   letter-spacing: -0.02em;
+  color: var(--color-text-primary);
 }
 
 .pricing-hero p {
-  font-size: 16px;
-  color: #A1A1AA;
+  font-size: var(--font-lg);
+  color: var(--color-text-secondary);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.5;
@@ -45,141 +41,148 @@
 /* --- CARDS --- */
 .pricing-cards-container {
   display: flex;
-  gap: 24px;
+  gap: var(--sp-6);
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: var(--sp-6);
 }
 
 .pricing-card {
   flex: 1;
   max-width: 400px;
-  background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 40px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--sp-10);
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-sm);
 }
 
 .pricing-card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--color-border-focus);
+  box-shadow: var(--shadow-md);
 }
 
 .plan-premium {
-  border-color: rgba(107, 78, 255, 0.4);
-  box-shadow: 0 0 40px rgba(107, 78, 255, 0.1);
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-md);
 }
 
 .plan-premium:hover {
-  border-color: rgba(107, 78, 255, 0.8);
-  box-shadow: 0 0 60px rgba(107, 78, 255, 0.2);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-4px);
 }
 
 .badge-recommended {
   position: absolute;
-  top: -12px;
+  top: -14px;
   left: 50%;
   transform: translateX(-50%);
-  background: #FFFFFF;
-  color: #000000;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 100px;
+  background: var(--color-primary);
+  color: var(--color-text-white);
+  font-size: var(--font-xs);
+  font-weight: var(--weight-bold);
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .card-header h3 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 8px;
+  font-size: var(--font-2xl);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--sp-2);
+  color: var(--color-text-primary);
 }
 
 .card-header p {
-  font-size: 14px;
-  color: #A1A1AA;
-  margin-bottom: 24px;
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--sp-6);
 }
 
 .card-price {
-  margin-bottom: 32px;
+  margin-bottom: var(--sp-8);
 }
 
 .card-price h2 {
   font-size: 48px;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   line-height: 1;
-  margin-bottom: 4px;
+  margin-bottom: var(--sp-1);
+  color: var(--color-text-primary);
 }
 
 .card-price span {
-  font-size: 14px;
-  color: #A1A1AA;
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
 }
 
 .card-features {
   list-style: none;
   padding: 0;
-  margin: 0 0 40px 0;
+  margin: 0 0 var(--sp-10) 0;
   flex-grow: 1;
 }
 
 .card-features li {
-  font-size: 14px;
-  color: #E4E4E7;
-  margin-bottom: 16px;
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--sp-4);
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: var(--sp-3);
 }
 
 .check-icon {
-  color: #FFFFFF;
+  color: var(--color-primary);
+  font-weight: bold;
 }
 
 .btn-pricing {
   width: 100%;
   padding: 14px;
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 8px;
+  font-size: var(--font-md);
+  font-weight: var(--weight-semibold);
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .btn-outline-dark {
   background: transparent;
-  color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
 }
 
 .btn-outline-dark:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--color-bg-secondary);
+  border-color: var(--color-text-muted);
 }
 
 .btn-primary.btn-glow {
-  background: #FFFFFF;
-  color: #000000;
+  background: var(--color-primary);
+  color: var(--color-text-white);
   border: none;
+  box-shadow: 0 4px 12px rgba(107, 78, 255, 0.3);
 }
 
 .btn-primary.btn-glow:hover {
-  background: #F4F4F5;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  background: var(--color-primary-dark);
+  box-shadow: 0 6px 16px rgba(107, 78, 255, 0.4);
 }
 
 .pricing-reinsurance {
   text-align: center;
-  font-size: 13px;
-  color: #71717A;
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
   margin-bottom: 80px;
 }
 
 .pricing-reinsurance p {
-  margin-bottom: 8px;
+  margin-bottom: var(--sp-2);
 }
 
 /* --- COMPARISON TABLE --- */
@@ -189,16 +192,18 @@
 
 .pricing-comparison h2 {
   text-align: center;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 32px;
+  font-size: var(--font-2xl);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--sp-8);
+  color: var(--color-text-primary);
 }
 
 .comparison-table-wrapper {
-  background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .comparison-table {
@@ -210,17 +215,18 @@
 .comparison-table th,
 .comparison-table td {
   padding: 20px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  font-size: 14px;
+  border-bottom: 1px solid var(--color-border-light);
+  font-size: var(--font-sm);
 }
 
 .comparison-table th {
-  font-weight: 600;
-  color: #FFFFFF;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
 }
 
 .comparison-table td {
-  color: #E4E4E7;
+  color: var(--color-text-secondary);
 }
 
 .comparison-table th:nth-child(2),
@@ -236,11 +242,16 @@
 }
 
 .th-premium, .td-premium {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--color-primary-50) !important;
+}
+
+.td-premium {
+  color: var(--color-primary-dark) !important;
+  font-weight: var(--weight-medium);
 }
 
 .text-muted {
-  color: #71717A !important;
+  color: var(--color-text-muted) !important;
 }
 
 /* --- FAQ --- */
@@ -250,35 +261,41 @@
 
 .pricing-faq h2 {
   text-align: center;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 32px;
+  font-size: var(--font-2xl);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--sp-8);
+  color: var(--color-text-primary);
 }
 
 .faq-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--sp-4);
   max-width: 800px;
   margin: 0 auto;
 }
 
 .faq-item {
-  background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   overflow: hidden;
+  transition: box-shadow var(--transition-base);
+}
+
+.faq-item:hover {
+  box-shadow: var(--shadow-sm);
 }
 
 .faq-question {
   width: 100%;
   text-align: left;
-  padding: 24px;
+  padding: 20px 24px;
   background: transparent;
   border: none;
-  color: #FFFFFF;
-  font-size: 16px;
-  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: var(--font-md);
+  font-weight: var(--weight-medium);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -287,7 +304,7 @@
 
 .faq-chevron {
   font-size: 12px;
-  color: #71717A;
+  color: var(--color-text-muted);
   transition: transform 0.3s ease;
 }
 
@@ -295,14 +312,14 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  background: #111111;
+  background: var(--color-card);
 }
 
 .faq-answer p {
   padding: 0 24px 24px 24px;
   margin: 0;
-  color: #A1A1AA;
-  font-size: 14px;
+  color: var(--color-text-secondary);
+  font-size: var(--font-sm);
   line-height: 1.6;
 }
 
@@ -314,88 +331,97 @@
   max-height: 200px;
 }
 
-/* --- WAITLIST MODAL (Dark Premium) --- */
+/* --- WAITLIST MODAL --- */
 .pricing-modal-overlay {
-  background: rgba(0, 0, 0, 0.8) !important;
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(4px);
 }
 
 .pricing-modal {
-  background: #111111 !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  color: #FFFFFF !important;
+  background: var(--color-card) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text-primary) !important;
+  box-shadow: var(--shadow-xl) !important;
 }
 
 .pricing-modal .modal-header h2 {
-  color: #FFFFFF !important;
+  color: var(--color-text-primary) !important;
 }
 
 .pricing-modal .modal-close {
-  color: #A1A1AA !important;
+  color: var(--color-text-muted) !important;
 }
 
 .pricing-modal .modal-close:hover {
-  color: #FFFFFF !important;
-  background: rgba(255, 255, 255, 0.1) !important;
+  color: var(--color-text-primary) !important;
+  background: var(--color-bg-secondary) !important;
 }
 
 .modal-desc {
-  color: #A1A1AA;
-  font-size: 14px;
+  color: var(--color-text-secondary);
+  font-size: var(--font-sm);
   line-height: 1.5;
-  margin-bottom: 24px;
+  margin-bottom: var(--sp-6);
 }
 
 .dark-input {
-  background: #000000 !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #FFFFFF !important;
+  background: var(--color-card) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text-primary) !important;
 }
 
 .dark-input:focus {
-  border-color: #6B4EFF !important;
-  box-shadow: 0 0 0 3px rgba(107, 78, 255, 0.2) !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px var(--color-primary-100) !important;
 }
 
 .plan-recap {
-  background: #000000;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  padding: 16px;
-  margin-top: 24px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin-top: var(--sp-6);
 }
 
 .plan-recap-title {
   font-size: 12px;
-  font-weight: 600;
-  color: #FFFFFF;
-  margin-bottom: 8px;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--sp-2);
 }
 
 .plan-recap-plan {
-  font-size: 14px;
-  color: #A1A1AA;
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
   margin-bottom: 4px;
 }
 
 .plan-recap-offer {
-  font-size: 14px;
-  font-weight: 600;
-  color: #FFFFFF;
+  font-size: var(--font-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-primary);
 }
 
 .pricing-modal .modal-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-  background: #111111 !important;
+  border-top: 1px solid var(--color-border) !important;
+  background: var(--color-bg-secondary) !important;
 }
 
 .pricing-modal .btn-primary {
-  background: #FFFFFF !important;
-  color: #000000 !important;
+  background: var(--color-primary) !important;
+  color: var(--color-text-white) !important;
 }
 
 .pricing-modal .btn-primary:hover {
-  background: #F4F4F5 !important;
+  background: var(--color-primary-dark) !important;
+}
+
+.pricing-modal .btn-outline-dark {
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+.pricing-modal .btn-outline-dark:hover {
+  background: var(--color-border-light);
 }
 
 /* RESPONSIVE */
@@ -408,7 +434,7 @@
     max-width: 100%;
   }
   
-  .pricing-main {
+  .pricing-content-wrapper {
     padding: 32px 16px;
   }
   
@@ -424,3 +450,4 @@
     width: 80px;
   }
 }
+
