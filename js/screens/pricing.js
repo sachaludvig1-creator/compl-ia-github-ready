@@ -218,10 +218,10 @@ window.PricingScreen = {
     const originalPrice = parseFloat(price.replace('€', '').replace(',', '.'));
     const discountedPrice = Math.round(originalPrice * 0.8) + '€';
     
-    overlay.innerHTML = \`
+    overlay.innerHTML = `
       <div class="modal pricing-modal" style="max-width: 480px; padding: 0;">
         <div class="modal-header" style="padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <h2 style="font-size: 20px; font-weight: 600;">Pré-inscription - \${planName}</h2>
+          <h2 style="font-size: 20px; font-weight: 600;">Pré-inscription - ${planName}</h2>
           <button class="modal-close" id="waitlist-close">✕</button>
         </div>
         
@@ -232,13 +232,13 @@ window.PricingScreen = {
           
           <div class="form-group" style="margin-bottom: 24px;">
             <label style="color:#A1A1AA; font-size:13px; margin-bottom:8px; display:block;">Adresse email</label>
-            <input type="email" id="waitlist-email" class="input-field dark-input" value="\${email}" placeholder="votre@email.com" />
+            <input type="email" id="waitlist-email" class="input-field dark-input" value="${email}" placeholder="votre@email.com" />
           </div>
           
           <div class="plan-recap">
             <div class="plan-recap-title">Votre sélection :</div>
-            <div class="plan-recap-plan">\${planName} · \${price} par mois</div>
-            <div class="plan-recap-offer">Prix de lancement avec -20% : \${discountedPrice}/mois</div>
+            <div class="plan-recap-plan">${planName} · ${price} par mois</div>
+            <div class="plan-recap-offer">Prix de lancement avec -20% : ${discountedPrice}/mois</div>
           </div>
         </div>
         
@@ -247,7 +247,7 @@ window.PricingScreen = {
           <button class="btn btn-primary" id="waitlist-submit" style="flex: 1;">S'inscrire à la liste d'attente</button>
         </div>
       </div>
-    \`;
+    `;
 
     document.body.appendChild(overlay);
 
@@ -281,9 +281,9 @@ window.PricingScreen = {
         window.showToast('🎉 Inscription confirmée ! Vous serez contacté très prochainement.');
       } catch (e) {
         console.error(e);
-        window.showToast('Erreur lors de l\\'inscription.', 'error');
+        window.showToast("Erreur lors de l'inscription.", 'error');
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'S\\'inscrire à la liste d\\'attente';
+        submitBtn.innerHTML = "S'inscrire à la liste d'attente";
       }
     });
   }
