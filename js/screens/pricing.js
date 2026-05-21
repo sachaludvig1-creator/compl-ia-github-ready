@@ -71,11 +71,11 @@ window.PricingScreen = {
                     <p>Pour les équipes marketing et réglementaires en binôme</p>
                   </div>
                   <div class="card-price">
-                    <h2>59,99 €</h2>
-                    <span>/ mois</span>
+                    <h2>59 €</h2>
+                    <span>/ mois<br><small style="opacity:0.7;font-size:0.85em;font-weight:400;">(soit 29,50€ / util. / mois)</small></span>
                   </div>
                   <div class="plan-limits">
-                    2 utilisateurs · Analyses illimitées
+                    2 utilisateurs inclus · +25€/mois par util. sup. (max 5)
                   </div>
                   
                   <div class="features-section-title">TOUT LE GRATUIT, PLUS</div>
@@ -92,7 +92,7 @@ window.PricingScreen = {
 
                   <div class="features-section-title">NON INCLUS</div>
                   <ul class="card-features">
-                    <li class="not-included"><span class="minus-icon">—</span> Multi-utilisateurs au-delà de 2</li>
+                    <li class="not-included"><span class="minus-icon">—</span> Multi-utilisateurs au-delà de 5</li>
                     <li class="not-included"><span class="minus-icon">—</span> Gestion des rôles avancée</li>
                   </ul>
                 </div>
@@ -111,16 +111,16 @@ window.PricingScreen = {
                     <p>Pour les marques qui déploient Compl-IA à l'échelle d'une équipe</p>
                   </div>
                   <div class="card-price">
-                    <h2>149,99 €</h2>
-                    <span>/ mois</span>
+                    <h2>149 €</h2>
+                    <span>/ mois<br><small style="opacity:0.7;font-size:0.85em;font-weight:400;">(soit 24,83€ / util. / mois)</small></span>
                   </div>
                   <div class="plan-limits">
-                    10 utilisateurs · Analyses illimitées
+                    6 utilisateurs inclus · +22€/mois par util. sup.
                   </div>
                   
                   <div class="features-section-title">TOUT LE PRO, PLUS</div>
                   <ul class="card-features">
-                    <li><span class="check-icon">✓</span> Jusqu'à 10 sièges</li>
+                    <li><span class="check-icon">✓</span> 6 sièges inclus (sans limite d'ajout)</li>
                     <li><span class="check-icon">✓</span> Gestion des rôles : soumetteur / validateur / informé</li>
                     <li><span class="check-icon">✓</span> Tableau de bord multi-utilisateurs centralisé</li>
                     <li><span class="check-icon">✓</span> Distinction des dates : soumission / retour souhaité / validation définitive</li>
@@ -193,8 +193,8 @@ window.PricingScreen = {
                     <tr>
                       <td>Utilisateurs</td>
                       <td>1</td>
-                      <td class="td-premium">2</td>
-                      <td>Jusqu'à 10</td>
+                      <td class="td-premium">2 à 5</td>
+                      <td>6 et +</td>
                     </tr>
                     <tr>
                       <td>Reformulations multiples</td>
@@ -323,9 +323,9 @@ window.PricingScreen = {
       btn.addEventListener('click', (e) => {
         const plan = btn.dataset.plan;
         if (plan === 'pro') {
-          this.openWaitlistModal('Pro', '59,99€');
+          this.openWaitlistModal('Pro', '59€');
         } else if (plan === 'team') {
-          this.openWaitlistModal('Team', '149,99€');
+          this.openWaitlistModal('Team', '149€');
         }
       });
     });
