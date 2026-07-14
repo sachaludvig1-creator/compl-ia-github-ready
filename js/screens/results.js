@@ -468,7 +468,7 @@ window.ResultsScreen = {
           "content-type": "application/json"
         },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
+          model: "claude-3-5-sonnet-20240620",
           max_tokens: 1024,
           system: sysPrompt,
           messages: [{ role: "user", content: "Analyse : " + formData.texte }]
@@ -641,7 +641,7 @@ Texte : ${newText}`;
             "content-type": "application/json"
           },
           body: JSON.stringify({
-            model: "claude-sonnet-4-20250514",
+            model: "claude-3-5-sonnet-20240620",
             max_tokens: 1024,
             system: sysPrompt,
             messages: [{ role: "user", content: userPrompt }]
@@ -971,7 +971,7 @@ Texte : ${newText}`;
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-              model: "claude-sonnet-4-20250514",
+              model: "claude-3-5-sonnet-20240620",
               max_tokens: 500,
               system: "Tu es l'assistant Légal de Compl-IA. Sois extrêmement bref (2 lignes max) et précis sur les lois cosmétiques européennes ou le contrôle de conformité.", 
               messages: [{ role: "user", content: txt }]
