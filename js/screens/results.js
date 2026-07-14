@@ -600,15 +600,15 @@ window.ResultsScreen = {
         const brandRules = localStorage.getItem('complia_brand_rules') || '';
         const typeProduit = window.AppState.typeProduit || 'cosmetique';
         
-        const sysPrompt = window.buildSystemPrompt ? window.buildSystemPrompt(typeProduit, paysSelectionnes, brandRules) : `Tu es un expert en réglementation cosmétique. Analyse ce contenu pour les marchés : ${paysSelectionnes}. Retourne UNIQUEMENT un JSON...`;
+        const baseSysPrompt = window.buildSystemPrompt ? window.buildSystemPrompt(typeProduit, paysSelectionnes, brandRules) : `Tu es un expert en réglementation cosmétique. Analyse ce contenu pour les marchés : ${paysSelectionnes}.`;
 
         const prevScore = formData.analyse?.score ?? formData.analyse?.scoreConformite ?? 100;
         const prevProblems = formData.analyse?.problemes ?? [];
         const prevProblemsList = prevProblems.map(p => `- [${p.severite}] ${p.phrase || p.fragment}`).join('\n');
 
-        const sysPrompt = `Tu es un expert en réglementation cosmétique. Analyse ce contenu pour les marchés : ${paysSelectionnes}.${knowledgeLocal}
+        const sysPrompt = `${baseSysPrompt}
 
-Tu analyses une version améliorée d'un contenu cosmétique.
+Tu analyses une version améliorée d'un contenu.
 La version précédente avait un score de ${prevScore}/100.
 Les problèmes suivants avaient été identifiés : 
 ${prevProblemsList || 'Aucun'}
