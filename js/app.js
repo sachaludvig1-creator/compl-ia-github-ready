@@ -12,6 +12,7 @@
    Partagé entre tous les écrans via window.AppState
    ---------------------------------------- */
 window.AppState = {
+  typeProduit:     'cosmetique', /* 'cosmetique' ou 'complement' */
   currentUser:     null,   /* Profil connecté (objet de PROFILS dans data.js) */
   currentScreen:   'Login',/* Nom de l'écran actuellement affiché */
   submissions:     [],     /* Tableau des soumissions (modifié en mémoire) */
@@ -28,6 +29,7 @@ window.navigate = function(nomEcran, params = {}) {
   const ECRANS = {
     Login:      window.LoginScreen,
     Dashboard:  window.DashboardScreen,
+    Selection:  window.SelectionScreen,
     Submission: window.SubmissionScreen,
     Results:    window.ResultsScreen,
     Pricing:    window.PricingScreen,
@@ -103,7 +105,7 @@ window.navigate = function(nomEcran, params = {}) {
         const nav = el.dataset.nav;
         if (nav === 'dashboard') window.navigate('Dashboard');
         else if (nav === 'pricing') window.navigate('Pricing');
-        else window.navigate('Submission');
+        else window.navigate('Selection');
       });
     });
     document.querySelector('.mobile-bottom-item[data-action="notifs"]')?.addEventListener('click', () => {

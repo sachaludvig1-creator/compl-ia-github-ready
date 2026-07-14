@@ -57,7 +57,7 @@ window.PricingScreen = {
                   </ul>
                 </div>
                 
-                <button class="btn btn-outline-dark btn-pricing" data-plan="free" onclick="window.navigate('Submission')">
+                <button class="btn btn-outline-dark btn-pricing" data-plan="free" onclick="window.navigate('Selection')">
                   Commencer gratuitement
                 </button>
               </div>
@@ -334,7 +334,7 @@ window.PricingScreen = {
     document.querySelectorAll('[data-nav]').forEach(el => {
       el.addEventListener('click', () => {
         const action = el.dataset.nav;
-        if (action === 'nouvelle') window.navigate('Submission');
+        if (action === 'nouvelle') window.navigate('Selection');
         else if (action === 'dashboard') window.navigate('Dashboard');
         else if (action === 'pricing') window.navigate('Pricing');
       });

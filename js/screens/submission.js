@@ -20,6 +20,14 @@ window.SubmissionScreen = {
 
   /* Génère le HTML de l'écran de soumission */
   render() {
+    const isComplement = window.AppState && window.AppState.typeProduit === 'complement';
+    const titre = isComplement 
+      ? "Analyse de claims pour compléments alimentaires" 
+      : "Analyse de claims cosmétiques";
+    const sousTitre = isComplement 
+      ? "Conformité aux règles européennes (Règlement 1924/2006, 432/2012, registre UE des allégations, cadre DGCCRF)."
+      : "Conformité aux règles européennes (Règlement 655/2013, 1223/2009, ARPP v8, ISO 16128).";
+
     return `
       <div class="app-layout screen-enter">
         ${window.renderSidebar('nouvelle')}
@@ -30,8 +38,8 @@ window.SubmissionScreen = {
             <div class="page-header-left">
               <button class="btn btn-ghost btn-sm" id="btn-retour" style="margin-right:8px;">← Retour</button>
               <div>
-                <h1>Soumettre un contenu à analyser</h1>
-                <p>L'IA analyse votre contenu en quelques secondes selon les référentiels CE 1223/2009, ARPP et DGCCRF</p>
+                <h1>${titre}</h1>
+                <p>${sousTitre}</p>
               </div>
             </div>
           </div>

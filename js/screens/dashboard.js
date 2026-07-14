@@ -322,14 +322,14 @@ window.DashboardScreen = {
     
     /* Bouton "Nouvelle validation" */
     document.getElementById('btn-nouvelle-validation')?.addEventListener('click', () => {
-      window.navigate('Submission');
+      window.navigate('Selection');
     });
 
     /* Navigation latérale */
     document.querySelectorAll('[data-nav]').forEach(el => {
       el.addEventListener('click', () => {
         const action = el.dataset.nav;
-        if (action === 'nouvelle') window.navigate('Submission');
+        if (action === 'nouvelle') window.navigate('Selection');
         else if (action === 'dashboard') window.navigate('Dashboard');
         else if (action === 'pricing') window.navigate('Pricing');
       });
@@ -538,7 +538,7 @@ window.DashboardScreen = {
     document.getElementById('welcome-back-close').addEventListener('click', closeNotif);
     document.getElementById('welcome-back-cta').addEventListener('click', () => {
       closeNotif();
-      window.navigate('Submission');
+      window.navigate('Selection');
     });
 
     // Disparition auto après 8s

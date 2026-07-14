@@ -4,18 +4,62 @@
    api.js — Connexion à l'API Anthropic Claude Pure Fetch (No Modules)
    =================================================== */
 
-window.analyserClaim = async function(texte, categorie, canal, apiKey) {
-  let PROMPT_SYSTEME_DYNAMIQUE = `Tu es un expert en réglementation cosmétique européenne.\nTu analyses des contenus marketing uniquement sur la base de ce référentiel officiel Compl-IA v1.0 :\n\n`;
-  try {
-    const kb = window;
-    PROMPT_SYSTEME_DYNAMIQUE += `LEXIQUE DES TERMES INTERDITS (détection automatique) :\n${JSON.stringify(kb.LEXIQUE_INTERDITS || {}, null, 2)}\n\n`;
-    PROMPT_SYSTEME_DYNAMIQUE += `GRILLE DE SCORING (règles de calcul) :\n${JSON.stringify(kb.GRILLE_SCORING || {}, null, 2)}\n\n`;
-    PROMPT_SYSTEME_DYNAMIQUE += `EXEMPLES DE REFORMULATIONS CONFORMES (few-shot) :\n${JSON.stringify(kb.REFORMULATIONS || {}, null, 2)}\n\n`;
-  } catch (e) {
-    console.warn('[Compl-IA] Erreur construction Knowledge Base', e);
+window.buildSystemPrompt = function(typeProduit, paysSelectionnes = "France", brandRules = "") {
+  let prompt = "";
+  const kb = window;
+
+  if (typeProduit === "complement") {
+    const lexique = kb.LEXIQUE_INTERDITS_COMPLEMENTS;
+    const grille = kb.GRILLE_SCORING_COMPLEMENTS;
+    const reformulations = kb.REFORMULATIONS_COMPLEMENTS;
+    const alegations = kb.ALEGATIONS_AUTORISEES_COMPLEMENTS;
+
+    prompt = `Tu es un expert en réglementation européenne des compléments alimentaires (Règlement 1924/2006, Directive 2002/46/CE, Règlement 432/2012, EU Register of Nutrition and Health Claims, cadre français DGCCRF / DGAL / ANSES).
+Ta mission est d'analyser des contenus marketing pour vérifier la conformité des allégations relatives aux compléments alimentaires et proposer, si nécessaire, des reformulations conformes.
+
+Marchés ciblés : ${paysSelectionnes}.
+
+Contraintes fortes :
+- Tu dois t'appuyer exclusivement sur le référentiel fourni dans ce prompt.
+- Tu ne dois jamais inventer de règles en dehors de ce référentiel.
+- En cas de doute, tu dois privilégier la prudence et signaler le claim comme "à vérifier par un juriste".\n`;
+
+    try {
+      prompt += `\nLEXIQUE DES TERMES INTERDITS :\n${JSON.stringify(lexique || {}, null, 2)}\n`;
+      prompt += `\nGRILLE DE SCORING :\n${JSON.stringify(grille || {}, null, 2)}\n`;
+      prompt += `\nEXEMPLES DE REFORMULATIONS :\n${JSON.stringify(reformulations || {}, null, 2)}\n`;
+      prompt += `\nALLÉGATIONS AUTORISÉES :\n${JSON.stringify(alegations || {}, null, 2)}\n`;
+    } catch(e) { console.warn("Erreur JSON kb compléments", e); }
+  } else {
+    const lexique = kb.LEXIQUE_INTERDITS;
+    const grille = kb.GRILLE_SCORING;
+    const reformulations = kb.REFORMULATIONS;
+
+    prompt = `Tu es un expert en réglementation cosmétique européenne (Règlement 655/2013, Règlement 1223/2009, Recommandation ARPP v8, ISO 16128, doctrine DGCCRF).
+Ta mission est d'analyser des contenus marketing pour vérifier la conformité des allégations cosmétiques et proposer, si nécessaire, des reformulations conformes.
+
+Marchés ciblés : ${paysSelectionnes}.
+
+Contraintes fortes :
+- Tu dois t'appuyer exclusivement sur le référentiel fourni dans ce prompt.
+- Tu ne dois jamais inventer de règles en dehors de ce référentiel.
+- En cas de doute, tu dois privilégier la prudence et signaler le claim comme "à vérifier par un juriste".\n`;
+
+    try {
+      prompt += `\nLEXIQUE DES TERMES INTERDITS :\n${JSON.stringify(lexique || {}, null, 2)}\n`;
+      prompt += `\nGRILLE DE SCORING :\n${JSON.stringify(grille || {}, null, 2)}\n`;
+      prompt += `\nEXEMPLES DE REFORMULATIONS :\n${JSON.stringify(reformulations || {}, null, 2)}\n`;
+    } catch(e) { console.warn("Erreur JSON kb cosmetiques", e); }
   }
 
-  PROMPT_SYSTEME_DYNAMIQUE += `Pour chaque analyse, retourne UNIQUEMENT un JSON valide avec cette structure exacte, sans texte avant ni après :
+  if (brandRules) {
+    prompt += `\nRègles internes de la marque (À RESPECTER STRICTEMENT) :\n${brandRules}\n`;
+  }
+
+  prompt += `\nTâche à réaliser :
+Pour chaque claim soumis :
+1. Détecter les termes et patterns présents dans le lexique et la grille.
+2. Renvoyer UNIQUEMENT un JSON valide avec cette structure exacte, sans texte avant ni après :
 {
   "score": number (0-100),
   "problemes": [
@@ -30,16 +74,20 @@ window.analyserClaim = async function(texte, categorie, canal, apiKey) {
   "points_positifs": ["ce qui est conforme"],
   "temps_economise": "estimation"
 }`;
+  return prompt;
+};
 
-  const promptUtilisateur = `Analyse ce contenu cosmétique :\nTexte : "${texte}"\nCatégorie produit : ${categorie}\nCanal de diffusion : ${canal}`;
+window.analyserClaim = async function({ texte, typeProduit, categorie, canal, pays }) {
+  const paysSelectionnes = pays || "France";
+  const brandRules = localStorage.getItem('complia_brand_rules') || '';
+  const PROMPT_SYSTEME_DYNAMIQUE = window.buildSystemPrompt(typeProduit, paysSelectionnes, brandRules);
+
+  const promptUtilisateur = `Analyse ce contenu :\nTexte : "${texte}"\nCatégorie produit : ${categorie || 'N/A'}\nCanal de diffusion : ${canal || 'N/A'}`;
 
   try {
-    // Appel sécurisé vers la Fonction Serverless interne (qui gère secrètement la clé API)
     const response = await fetch("/api/analyze", {
       method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1024,
@@ -50,7 +98,7 @@ window.analyserClaim = async function(texte, categorie, canal, apiKey) {
 
     if (!response.ok) {
       const errData = await response.json().catch(()=>({}));
-      throw new Error(errData?.error?.message || `HTTP ${response.status}`);
+      throw new Error(errData?.error?.message || \`HTTP \${response.status}\`);
     }
 
     const data = await response.json();
@@ -62,7 +110,7 @@ window.analyserClaim = async function(texte, categorie, canal, apiKey) {
       resultat.sourceAnalyse = 'claude';
       return resultat;
     } catch(e) {
-      const matchJSON = contenuTexte.match(/\{[\s\S]*\}/);
+      const matchJSON = contenuTexte.match(/\\{[\\s\\S]*\\}/);
       if (matchJSON) return JSON.parse(matchJSON[0]);
       throw new Error('Impossible de parser JSON');
     }

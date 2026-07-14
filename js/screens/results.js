@@ -411,7 +411,7 @@ window.ResultsScreen = {
     document.querySelectorAll('[data-nav]').forEach(el => {
       el.addEventListener('click', () => {
         if (el.dataset.nav === 'dashboard') window.navigate('Dashboard');
-        else if (el.dataset.nav === 'nouvelle') window.navigate('Submission');
+        else if (el.dataset.nav === 'nouvelle') window.navigate('Selection');
         else if (el.dataset.nav === 'pricing') window.navigate('Pricing');
       });
     });
@@ -458,9 +458,9 @@ window.ResultsScreen = {
     try {
       const paysSelectionnes = typeof formData.pays === 'string' ? formData.pays : (Array.isArray(formData.pays) ? formData.pays.join(", ") : "France");
       const brandRules = localStorage.getItem('complia_brand_rules') || '';
-      const knowledgeLocal = brandRules ? `\nRègles internes de la marque (À RESPECTER STRICTEMENT) :\n${brandRules}\n` : '';
+      const typeProduit = window.AppState.typeProduit || 'cosmetique';
       
-      const sysPrompt = `Tu es un expert en réglementation cosmétique. Analyse ce contenu pour les marchés : ${paysSelectionnes}.${knowledgeLocal} Retourne UNIQUEMENT un JSON avec {score, problemes:[{phrase, severite, explication, reglement, reformulations:[]}], points_positifs:[], temps_economise}.`;
+      const sysPrompt = window.buildSystemPrompt ? window.buildSystemPrompt(typeProduit, paysSelectionnes, brandRules) : `Tu es un expert en réglementation cosmétique. Analyse ce contenu pour les marchés : ${paysSelectionnes}. Retourne UNIQUEMENT un JSON...`;
 
       const response = await fetch("/api/analyze", {
         method: "POST",
@@ -598,7 +598,9 @@ window.ResultsScreen = {
       try {
         const paysSelectionnes = typeof formData.pays === 'string' ? formData.pays : (Array.isArray(formData.pays) ? formData.pays.join(", ") : "France");
         const brandRules = localStorage.getItem('complia_brand_rules') || '';
-        const knowledgeLocal = brandRules ? `\nRègles internes de la marque (À RESPECTER STRICTEMENT) :\n${brandRules}\n` : '';
+        const typeProduit = window.AppState.typeProduit || 'cosmetique';
+        
+        const sysPrompt = window.buildSystemPrompt ? window.buildSystemPrompt(typeProduit, paysSelectionnes, brandRules) : `Tu es un expert en réglementation cosmétique. Analyse ce contenu pour les marchés : ${paysSelectionnes}. Retourne UNIQUEMENT un JSON...`;
 
         const prevScore = formData.analyse?.score ?? formData.analyse?.scoreConformite ?? 100;
         const prevProblems = formData.analyse?.problemes ?? [];
