@@ -991,9 +991,3 @@
   font-weight: var(--weight-medium);
   cursor: default;
 }
-
-.top-fields-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 24px;
-}

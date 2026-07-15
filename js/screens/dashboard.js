@@ -21,9 +21,9 @@ window.DashboardScreen = {
           <!-- En-tête de page -->
           <div class="page-header">
             <div class="page-header-left">
-              <h1>${isJuridique ? 'Contenus en attente de validation' : 'Tableau de bord'}</h1>
+              <h1>${isJuridique ? 'File de validation' : 'Tableau de bord'}</h1>
               <p>${isJuridique
-                ? 'Examinez et validez les propositions de vos équipes'
+                ? 'Soumissions en attente de validation réglementaire'
                 : 'Suivez vos contenus soumis et leur statut de validation.'
               }</p>
             </div>
@@ -56,14 +56,12 @@ window.DashboardScreen = {
               <table class="dashboard-table">
                 <thead>
                   <tr>
-                    <th>Contenu & Périmètre</th>
-                    <th>Soumis le</th>
-                    <th>Retour souhaité</th>
-                    <th>Audit IA</th>
+                    <th>Titre</th>
                     <th>Statut</th>
-                    <th>Validé le</th>
-                    ${isJuridique ? '<th>Affecté par</th>' : ''}
-                    <th style="width: 160px;"></th>
+                    <th>Risque</th>
+                    <th>Date</th>
+                    ${isJuridique ? '<th>Soumis par</th>' : ''}
+                    <th style="width: 180px;"></th>
                   </tr>
                 </thead>
                 <tbody id="table-body">
@@ -213,75 +211,66 @@ window.DashboardScreen = {
     if (currentScore <= 40) scoreColor = 'var(--color-risk-high)';
     else if (currentScore <= 70) scoreColor = 'var(--color-risk-medium)';
 
-    /* Formater une date YYYY-MM-DD en string FR court */
-    const formatDateStr = (dateStr) => {
-      if (!dateStr) return '';
-      if (dateStr.includes('/')) {
-        const parts = dateStr.split('/');
-        if (parts.length === 3) {
-           const mNames = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
-           const d = parseInt(parts[0],10); const m = parseInt(parts[1],10); const y = parts[2];
-           return `${d} ${mNames[m-1]} ${y}`;
-        }
-      } else if (dateStr.includes('-')) {
+    /* Formater la date en string "13 avr. 2026" si elle est type jj/mm/aaaa ou YYYY-MM-DD */
+    let formattedDate = sub.dateShort || sub.creeLe || '';
+    if (formattedDate.includes('/')) {
+      const parts = formattedDate.split('/');
+      if (parts.length === 3) {
          const mNames = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
-         const parts = dateStr.split('-');
-         if (parts.length === 3) {
-           const d = parseInt(parts[2],10); const m = parseInt(parts[1],10); const y = parts[0];
-           return `${d} ${mNames[m-1]} ${y}`;
-         }
+         const d = parseInt(parts[0],10); const m = parseInt(parts[1],10); const y = parts[2];
+         formattedDate = `${d} ${mNames[m-1]} ${y}`;
       }
-      return dateStr;
-    };
-
-    let formattedDate = formatDateStr(sub.dateShort || sub.creeLe);
-    let deadlineDateStr = formatDateStr(sub.deadline);
-
-    let submitter = sub.soumitParLabel || "Camille Fouet (Marketing)";
+    } else if (formattedDate.includes('-')) {
+       const mNames = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+       const parts = formattedDate.split('-');
+       if (parts.length === 3) {
+         const d = parseInt(parts[2],10); const m = parseInt(parts[1],10); const y = parts[0];
+         formattedDate = `${d} ${mNames[m-1]} ${y}`;
+       }
+    }
 
     return `
       <tr class="table-row-clickable" data-sub-id="${sub.id}">
-        <td data-label="Contenu & Périmètre">
-          <div class="cell-title" style="margin-bottom:4px;">
-            <span class="cell-title-main" style="max-width: 250px; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${sub.titre}</span>
+        <td>
+          <div class="cell-title">
+            <span class="cell-title-main" style="max-width: 320px; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${sub.titre}</span>
             <span class="cell-title-sub">${sub.categorie} · ${sub.pays || 'France'}</span>
           </div>
         </td>
-        <td data-label="Soumis le"><span class="cell-date">${formattedDate || 'Aujourd\'hui'}</span></td>
-        <td data-label="Retour souhaité">
-          ${deadlineDateStr ? `<span style="color:#D97706; font-weight:600; font-size:12px; background:#FEF3C7; padding:4px 8px; border-radius:4px;">⏱ ${deadlineDateStr}</span>` : '<span style="color:#9CA3AF; font-size:12px;">Non précisé</span>'}
-        </td>
-        <td data-label="Audit IA">
-           <span style="display:inline-block; padding:4px 12px; border-radius:100px; background:${currentScore <= 40 ? '#FEE2E2' : currentScore <= 70 ? '#FEF3C7' : '#D1FAE5'}; color:${currentScore <= 40 ? '#991B1B' : currentScore <= 70 ? '#92400E' : '#065F46'}; font-weight:600; font-size:11px;">
-             ${sub.version > 1 ? `V${sub.version} : ` : ''}${currentScore <= 40 ? 'Risque Élevé' : currentScore <= 70 ? 'Conforme avec réserve' : 'Conforme'}
-           </span>
-        </td>
-        <td data-label="Statut">
+        <td>
           <span class="badge ${statutDef.cssClass}">
              <span style="color: ${statutDef.dotColor || 'inherit'}; margin-right:4px;">●</span> ${statutDef.label}
           </span>
+
           ${(!isJuridique && sub.statut === 'retravailler' && sub.commentaireJuridique) ? `
             <div style="margin-top: 8px; font-size: 12px; color: var(--color-text-secondary); font-style: italic; max-width: 280px; line-height: 1.4;">
               💬 "${sub.commentaireJuridique}"
             </div>
           ` : ''}
         </td>
-        <td data-label="Validé le"><span class="cell-date">${sub.statut === 'valide' ? (sub.dateValidation || 'Récemment') : '-'}</span></td>
+        <td>
+           <span style="display:inline-block; padding:4px 12px; border-radius:100px; background:${currentScore <= 40 ? '#FEE2E2' : currentScore <= 70 ? '#FEF3C7' : '#D1FAE5'}; color:${currentScore <= 40 ? '#991B1B' : currentScore <= 70 ? '#92400E' : '#065F46'}; font-weight:600; font-size:11px;">
+             ${currentScore <= 40 ? 'Risque Élevé' : currentScore <= 70 ? 'Modéré' : 'Conforme'}
+           </span>
+        </td>
+        <td>
+          <span class="cell-date">${formattedDate}</span>
+        </td>
         ${isJuridique ? `
-        <td data-label="Affecté par">
-          <span style="font-size: 13px; color: var(--color-text-secondary);">${submitter}</span>
+        <td>
+          <span style="font-size: 13px; color: var(--color-text-secondary);">${sub.soumisParRole === 'marketing' ? 'Camille Fouet' : 'Utilisateur'}</span>
         </td>
         ` : ''}
         <td class="cell-arrow">
           <div style="display: flex; justify-content: flex-end; align-items: center; gap: 8px;">
             ${(!isJuridique && sub.statut === 'retravailler') ? `
               <button class="btn btn-outline-primary btn-sm btn-retravailler" data-sub-id="${sub.id}" style="padding: 4px 10px; font-size: 11px;">
-                ✏️ Modifier et resoumettre
+                ✏️ Modifier et re-soumettre
               </button>
             ` : ''}
             ${(isJuridique && sub.statut === 'en_cours') ? `
               <button class="btn-validate" data-sub-id="${sub.id}" style="background:transparent; border:1.5px solid #6B4EFF; color:#6B4EFF; border-radius:6px; padding:6px 14px; font-size:13px; font-weight:500; cursor:pointer; transition:all 0.15s ease;" onmouseover="this.style.background='#EDE9FE'" onmouseout="this.style.background='transparent'">
-                Examiner ce contenu →
+                Ouvrir la validation →
               </button>
             ` : ''}
             <span style="color:#9CA3AF; margin-left:4px;">&gt;</span>
@@ -307,31 +296,19 @@ window.DashboardScreen = {
 
     this._updateDashboard();
 
-    // --- RÉTENTION : Tracker l'ouverture du dashboard ---
-    if (window.RetentionService && currentUser) {
-      await window.RetentionService.trackActivity(currentUser.uid);
-    }
-
-    // --- RÉTENTION : Afficher la notification de "Bon retour" ---
-    if (window.AppState.showWelcomeBack) {
-      this._showWelcomeBackNotification(currentUser.prenom || 'Utilisateur');
-      window.AppState.showWelcomeBack = false; // Ne l'afficher qu'une fois
-    }
-
     /* Events persistants au niveau du conteneur (ne nécessitent pas de re-bind si _updateDashboard change l'HTML parent) */
     
     /* Bouton "Nouvelle validation" */
     document.getElementById('btn-nouvelle-validation')?.addEventListener('click', () => {
-      window.navigate('Selection');
+      window.navigate('Submission');
     });
 
     /* Navigation latérale */
     document.querySelectorAll('[data-nav]').forEach(el => {
       el.addEventListener('click', () => {
         const action = el.dataset.nav;
-        if (action === 'nouvelle') window.navigate('Selection');
+        if (action === 'nouvelle') window.navigate('Submission');
         else if (action === 'dashboard') window.navigate('Dashboard');
-        else if (action === 'pricing') window.navigate('Pricing');
       });
     });
 
@@ -485,63 +462,5 @@ window.DashboardScreen = {
       window.showToast('📝 Révision demandée. L\'équipe marketing est notifiée.');
       this._updateDashboard();
     });
-  },
-
-  /* Affiche la notification "Bon retour" */
-  _showWelcomeBackNotification(prenom) {
-    const notif = document.createElement('div');
-    notif.style.cssText = `
-      position: fixed;
-      top: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      background: #1E293B;
-      border-left: 4px solid #6B4EFF;
-      border-radius: 12px;
-      padding: 16px 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      z-index: 999;
-      opacity: 0;
-      transition: all 0.3s ease;
-      color: white;
-      min-width: 320px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    `;
-    
-    notif.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-        <div>
-          <div style="font-weight:600; font-size:15px; margin-bottom:4px;">👋 Bon retour, ${prenom} !</div>
-          <div style="font-size:13px; color:#94A3B8; line-height:1.4;">Compl-IA est prêt à analyser vos nouveaux contenus.</div>
-        </div>
-        <button id="welcome-back-close" style="background:transparent; border:none; color:#94A3B8; cursor:pointer; font-size:16px;">✕</button>
-      </div>
-      <button id="welcome-back-cta" style="background:#6B4EFF; color:white; border:none; padding:8px 16px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer; align-self:flex-start;">Nouvelle analyse →</button>
-    `;
-
-    document.body.appendChild(notif);
-
-    // Animation in
-    requestAnimationFrame(() => {
-      notif.style.transform = 'translateX(-50%) translateY(0)';
-      notif.style.opacity = '1';
-    });
-
-    const closeNotif = () => {
-      notif.style.transform = 'translateX(-50%) translateY(-20px)';
-      notif.style.opacity = '0';
-      setTimeout(() => notif.remove(), 300);
-    };
-
-    document.getElementById('welcome-back-close').addEventListener('click', closeNotif);
-    document.getElementById('welcome-back-cta').addEventListener('click', () => {
-      closeNotif();
-      window.navigate('Selection');
-    });
-
-    // Disparition auto après 8s
-    setTimeout(closeNotif, 8000);
   }
 };
