@@ -235,14 +235,12 @@ const NAV_MARKETING = [
   { id: 'boite_reception', label: 'Boîte de réception', icone: '📥' },
   { id: 'dashboard', label: 'Tableau de bord', icone: '📊' },
   { id: 'nouvelle', label: 'Nouvelle pré-validation', icone: '✍️' },
-  { id: 'historique', label: 'Historique', icone: '🕒' },
   { id: 'regles', label: 'Règles marque', icone: '📘' },
 ];
 
 const NAV_JURIDIQUE = [
   { id: 'boite_reception', label: 'Boîte de réception', icone: '📥' },
   { id: 'dashboard', label: 'Contenus à valider', icone: '⚖️' },
-  { id: 'historique', label: 'Archives des audits', icone: '📂' },
   { id: 'regles', label: 'Gérer les règles', icone: '⚙️' },
 ];
 

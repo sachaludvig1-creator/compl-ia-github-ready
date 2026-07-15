@@ -149,9 +149,9 @@ window.SubmissionScreen = {
                     </label>
                     <div style="font-size:12px; color:#6B7280; margin-bottom:12px;">Ex : France → Règlement CE 1223/2009 + ARPP</div>
                     <div class="multi-select-tags" id="pays-tags" style="display:flex; flex-wrap:wrap; gap:8px;">
-                      ${['France', 'UE', 'Royaume-Uni', 'USA', 'LATAM', 'EMEA', 'International'].map((p, i) => `
+                      ${['France', 'UE'].map((p) => `
                         <label style="display:inline-flex; align-items:center; gap:6px; padding:8px 16px; background:#F3F4F6; border:1px solid #E5E7EB; border-radius:100px; cursor:pointer; font-size:13px; font-weight:500; transition:0.2s;" class="pays-lbl">
-                          <input type="checkbox" value="${p}" class="pays-chk" style="accent-color:#6B4EFF;" ${i===0 ? 'checked' : ''}>
+                          <input type="checkbox" value="${p}" class="pays-chk" style="accent-color:#6B4EFF;" checked>
                           ${p}
                         </label>
                       `).join('')}
