@@ -98,11 +98,12 @@ window.analyserClaim = async function({ texte, typeProduit, categorie, canal, pa
 
     if (!response.ok) {
       const errData = await response.json().catch(()=>({}));
-      throw new Error(errData?.error?.message || \`HTTP \${response.status}\`);
+      throw new Error(errData?.error?.message || `HTTP ${response.status}`);
     }
 
     const data = await response.json();
-    const contenuTexte = data.content[0].text;
+    const textBlock = data.content.find(c => c.type === 'text') || data.content[0];
+    const contenuTexte = textBlock.text || '';
     
     try {
       const resultat = JSON.parse(contenuTexte);
@@ -110,7 +111,7 @@ window.analyserClaim = async function({ texte, typeProduit, categorie, canal, pa
       resultat.sourceAnalyse = 'claude';
       return resultat;
     } catch(e) {
-      const matchJSON = contenuTexte.match(/\\{[\\s\\S]*\\}/);
+      const matchJSON = contenuTexte.match(/\{[\s\S]*\}/);
       if (matchJSON) return JSON.parse(matchJSON[0]);
       throw new Error('Impossible de parser JSON');
     }

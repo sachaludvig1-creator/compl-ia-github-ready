@@ -481,7 +481,9 @@ window.ResultsScreen = {
       }
 
       const message = await response.json();
-      const texteJson = message.content[0].text.match(/\{[\s\S]*\}/)?.[0] || message.content[0].text;
+      const textBlock = message.content.find(c => c.type === 'text') || message.content[0];
+      const contenuTexte = textBlock.text || '';
+      const texteJson = contenuTexte.match(/\{[\s\S]*\}/)?.[0] || contenuTexte;
       const analyse = JSON.parse(texteJson);
 
       window.AppState.analysisResult = analyse;
@@ -654,8 +656,10 @@ Texte : ${newText}`;
         }
 
         const message = await response.json();
-
-        const texteJson = message.content[0].text.match(/\{[\s\S]*\}/)?.[0] || message.content[0].text;
+        
+        const textBlock = message.content.find(c => c.type === 'text') || message.content[0];
+        const contenuTexte = textBlock.text || '';
+        const texteJson = contenuTexte.match(/\{[\s\S]*\}/)?.[0] || contenuTexte;
         const reponseIA = JSON.parse(texteJson);
         
         /* Enregistrement de V2/V3... */
