@@ -469,7 +469,7 @@ window.ResultsScreen = {
         },
         body: JSON.stringify({
               model: "claude-sonnet-5",
-          max_tokens: 1024,
+              max_tokens: 4096,
           system: sysPrompt,
           messages: [{ role: "user", content: "Analyse : " + formData.texte }]
         })
@@ -644,7 +644,7 @@ Texte : ${newText}`;
           },
           body: JSON.stringify({
                 model: "claude-sonnet-5",
-            max_tokens: 1024,
+                max_tokens: 4096,
             system: sysPrompt,
             messages: [{ role: "user", content: userPrompt }]
           })

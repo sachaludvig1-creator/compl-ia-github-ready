@@ -90,7 +90,7 @@ window.analyserClaim = async function({ texte, typeProduit, categorie, canal, pa
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         model: "claude-sonnet-5",
-        max_tokens: 1024,
+        max_tokens: 4096,
         system: PROMPT_SYSTEME_DYNAMIQUE,
         messages: [{ role: "user", content: promptUtilisateur }]
       })
