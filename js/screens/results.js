@@ -38,10 +38,7 @@ const FALLBACK_DATA = {
       ]
     }
   ],
-  points_positifs: [
-    "Présence d'acides hyaluroniques mentionnée comme ingrédient actif sans surpromesse.",
-    "Bénéfice global d'hydratation bien cadré par sa nature cosmétique."
-  ],
+  points_positifs: [],
   temps_economise: "Env. 0.5 jour"
 };
 
@@ -717,7 +714,7 @@ Texte : ${newText}`;
               reformulations: ["dès les premières applications"]
             }
           ],
-          points_positifs: FALLBACK_DATA.points_positifs.concat("Correction des allégations absolues appliquée avec succès."),
+          points_positifs: [],
           temps_economise: "Env. 0.5 jour"
         };
         

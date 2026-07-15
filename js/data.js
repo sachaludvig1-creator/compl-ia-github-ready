@@ -193,10 +193,7 @@ const ANALYSE_SIMULEE = {
       ]
     }
   ],
-  points_positifs: [
-    "Présence d'acides hyaluroniques mentionnée comme ingrédient actif sans surpromesse.",
-    "Bénéfice global d'hydratation bien cadré par sa nature cosmétique."
-  ],
+  points_positifs: [],
   temps_economise: "Env. 0.5 jour",
   tempsAnalyse: '2,4s',
   referentielsConsultes: ['CE 1223/2009', 'ARPP Beauté-Hygiène', 'DGCCRF 2023'],
