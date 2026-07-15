@@ -125,7 +125,7 @@ window.SubmissionScreen = {
                       <label class="form-label" for="select-categorie">Catégorie produit</label>
                       <select class="form-select" id="select-categorie">
                         <option value="">— Sélectionner —</option>
-                        ${CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('')}
+                        ${(isComplement ? CATEGORIES_COMPLEMENTS : CATEGORIES).map(c => `<option value="${c}">${c}</option>`).join('')}
                       </select>
                     </div>
                     <div class="form-group">

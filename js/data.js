@@ -50,6 +50,21 @@ const CATEGORIES = [
 ];
 
 /* ----------------------------------------
+   CATÉGORIES DE COMPLÉMENTS ALIMENTAIRES
+   ---------------------------------------- */
+const CATEGORIES_COMPLEMENTS = [
+  'Vitamines & Minéraux',
+  'Minceur & Détox',
+  'Articulations & Os',
+  'Digestion & Transit',
+  'Sommeil & Sérénité',
+  'Énergie & Tonus',
+  'Beauté (Peau/Ongles/Cheveux)',
+  'Immunité',
+  'Protéines & Sport',
+];
+
+/* ----------------------------------------
    CANAUX DE DIFFUSION
    ---------------------------------------- */
 const CANAUX = [
