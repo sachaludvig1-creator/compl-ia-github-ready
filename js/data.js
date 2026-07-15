@@ -222,10 +222,12 @@ const STATUT_LABELS = {
 const NAV_MARKETING = [
   { id: 'dashboard',  icone: '▦',  label: 'Tableau de bord' },
   { id: 'nouvelle',   icone: '＋',  label: 'Nouvelle validation' },
+  { id: 'regles',     icone: '📘', label: 'Règles internes' },
 ];
 
 const NAV_JURIDIQUE = [
   { id: 'dashboard',  icone: '▦',  label: 'File de validation' },
+  { id: 'regles',     icone: '📘', label: 'Règles internes' },
 ];
 
 /* ----------------------------------------
