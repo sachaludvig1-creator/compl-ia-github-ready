@@ -468,7 +468,7 @@ window.ResultsScreen = {
           "content-type": "application/json"
         },
         body: JSON.stringify({
-          model: "claude-3-5-sonnet-20240620",
+              model: "claude-sonnet-5",
           max_tokens: 1024,
           system: sysPrompt,
           messages: [{ role: "user", content: "Analyse : " + formData.texte }]
@@ -489,7 +489,7 @@ window.ResultsScreen = {
 
     } catch (erreur) {
       console.warn('Erreur API Claude, activation du fallback fictif :', erreur);
-      window.showToast("🛑 Blocage API : " + erreur.message, 10000);
+      /* window.showToast("🛑 Blocage API : " + erreur.message, 10000); */
       /* Fallback automatique et silencieux ! */
       
       /* Simule 2.4s d'attente pour que l'animation du loader se fasse */
@@ -641,7 +641,7 @@ Texte : ${newText}`;
             "content-type": "application/json"
           },
           body: JSON.stringify({
-            model: "claude-3-5-sonnet-20240620",
+                model: "claude-sonnet-5",
             max_tokens: 1024,
             system: sysPrompt,
             messages: [{ role: "user", content: userPrompt }]
@@ -697,7 +697,7 @@ Texte : ${newText}`;
         
       } catch (erreur) {
         console.warn("[Compl-IA] Erreur lors de l'analyse V2, utilisation du fallback V2", erreur);
-        window.showToast("🛑 Blocage API : " + erreur.message, 10000);
+        /* window.showToast("🛑 Blocage API : " + erreur.message, 10000); */
         
         // Mock fallback pour la V2 (On imagine que la reco a été suivie)
         await new Promise(r => setTimeout(r, 1500));
@@ -971,7 +971,7 @@ Texte : ${newText}`;
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-              model: "claude-3-5-sonnet-20240620",
+                  model: "claude-sonnet-5",
               max_tokens: 500,
               system: "Tu es l'assistant Légal de Compl-IA. Sois extrêmement bref (2 lignes max) et précis sur les lois cosmétiques européennes ou le contrôle de conformité.", 
               messages: [{ role: "user", content: txt }]
