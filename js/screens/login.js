@@ -133,8 +133,7 @@ window.LoginScreen = {
     return `
       <div class="onboarding-header">
         <div class="onboarding-brand">
-          <div class="brand-icon">IA</div>
-          Compl-IA
+          <img src="assets/logo_complia.png" alt="Compl-IA Logo" style="height: 32px;" />
         </div>
         <div>
           <span style="font-size:12px; color:#6B7280; margin-right:12px;">Étape ${this.state.step} sur 4</span>
@@ -161,8 +160,7 @@ window.LoginScreen = {
     return `
       <div class="onboarding-card" style="margin-top: 100px;">
         <div class="onboarding-brand" style="margin-bottom: 32px; justify-content: center;">
-          <div class="brand-icon">IA</div>
-          Compl-IA
+          <img src="assets/logo_complia.png" alt="Compl-IA Logo" style="height: 48px;" />
         </div>
         <h2 class="ob-title" style="text-align: center;">Rebonjour !</h2>
         <p class="ob-desc" style="text-align: center;">Connectez-vous pour accéder à votre espace de validation.</p>

@@ -65,7 +65,6 @@ window.PricingScreen = {
               <!-- Plan PRO -->
               <div class="pricing-card plan-premium">
                 <div>
-                  <div class="plan-badge badge-recommande">Recommandé</div>
                   <div class="card-header">
                     <h3>Pro</h3>
                     <p>Pour les équipes marketing et réglementaires en binôme</p>
@@ -97,7 +96,7 @@ window.PricingScreen = {
                   </ul>
                 </div>
 
-                <button class="btn btn-primary btn-pricing btn-glow" data-plan="pro">
+                <button class="btn btn-outline-dark btn-pricing" data-plan="pro">
                   Essayer Pro
                 </button>
               </div>
@@ -105,7 +104,7 @@ window.PricingScreen = {
               <!-- Plan TEAM -->
               <div class="pricing-card plan-team">
                 <div>
-                  <div class="plan-badge badge-equipes">Équipes</div>
+                  <div class="plan-badge badge-recommande">Recommandé</div>
                   <div class="card-header">
                     <h3>Team</h3>
                     <p>Pour les marques qui déploient Compl-IA à l'échelle d'une équipe</p>
@@ -131,7 +130,7 @@ window.PricingScreen = {
                   </ul>
                 </div>
 
-                <button class="btn btn-outline-dark btn-pricing" data-plan="team">
+                <button class="btn btn-primary btn-pricing btn-glow" data-plan="team">
                   Contacter l'équipe
                 </button>
               </div>

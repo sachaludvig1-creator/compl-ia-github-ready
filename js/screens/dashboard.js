@@ -29,7 +29,7 @@ window.DashboardScreen = {
             </div>
             ${!isJuridique ? `
               <button class="btn btn-primary" id="btn-nouvelle-validation">
-                ＋&nbsp; Nouvelle vérification
+                ＋&nbsp; Nouvelle pré-validation
               </button>
             ` : ''}
           </div>

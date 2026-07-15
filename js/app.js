@@ -86,6 +86,13 @@ window.navigate = function(nomEcran, params = {}) {
       });
     });
 
+    /* Brancher la Boîte de réception */
+    document.querySelectorAll('[data-nav="boite_reception"]').forEach(el => {
+      el.addEventListener('click', () => {
+        if (window.openNotificationsPanel) window.openNotificationsPanel();
+      });
+    });
+
     /* Mobile Sidebar Toggle */
     const sidebar = document.getElementById('app-sidebar');
     const overlay = document.getElementById('sidebar-overlay');
@@ -133,10 +140,18 @@ window.openReglesModal = function() {
         <p style="font-size: 14px; color: var(--color-text-secondary); margin-bottom: 16px;">
           Définissez ici les spécificités, mots interdits ou directives de ton de votre marque. Compl-IA les intégrera à chaque analyse comme une source de vérité supplémentaire.
         </p>
+        
+        <div style="margin-bottom: 24px; padding: 16px; border: 1px dashed #D1D5DB; border-radius: 8px; background: #F9FAFB; text-align: center;">
+          <div style="font-size: 24px; margin-bottom: 8px;">📄</div>
+          <div style="font-weight: 500; font-size: 14px; margin-bottom: 4px;">Charger un document PDF (Bientôt disponible)</div>
+          <div style="font-size: 12px; color: #6B7280; margin-bottom: 12px;">L'extraction automatique de PDF est en cours de développement. Pour la démo, merci de copier-coller le texte ci-dessous.</div>
+          <input type="file" accept=".pdf" style="font-size: 13px;" disabled title="Bientôt disponible">
+        </div>
+
         <textarea id="modal-rules-textarea" class="form-textarea" placeholder="Exemples :
 - Interdiction totale du mot 'miracle'
 - Ne jamais promettre de résultats en un chiffre de jours
-- Toujours évoquer la 'science de la nature' pour la gamme X..." rows="12" style="font-family: inherit;">${existingRules}</textarea>
+- Toujours évoquer la 'science de la nature' pour la gamme X..." rows="8" style="font-family: inherit;">${existingRules}</textarea>
         <div style="font-size: 12px; color: #9CA3AF; margin-top: 8px;">
           Sera injecté automatiquement dans les prompts IA.
         </div>
@@ -248,13 +263,7 @@ window.renderSidebar = function(itemActif) {
 
       <!-- Logo Compl-IA -->
       <div class="sidebar-logo" style="margin-bottom: 32px;">
-        <div class="login-brand" style="margin: 0; gap: 8px;">
-          <div class="login-brand-mark" style="width:36px; height:36px; font-size:14px; border-radius:8px;">IA</div>
-          <div>
-            <div class="login-brand-name" style="font-weight: 700; font-size: 16px; color: #FFFFFF;">Compl-IA</div>
-            <div class="login-brand-tagline" style="color: rgba(255,255,255,0.5); font-size: 11px;">Validation réglementaire</div>
-          </div>
-        </div>
+        <img src="assets/logo_complia.png" alt="Compl-IA Logo" style="max-width: 160px; height: auto;" />
       </div>
 
       <!-- Navigation principale -->
@@ -280,7 +289,7 @@ window.renderSidebar = function(itemActif) {
         <!-- Lien Pricing / Premium -->
         <div class="sidebar-nav-item ${itemActif === 'pricing' ? 'active' : ''}" style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;" data-nav="pricing" role="button" tabindex="0">
           <span class="sidebar-nav-icon" style="color: #8B72FF;">✨</span>
-          <span style="font-weight: 600; background: linear-gradient(90deg, #8B72FF, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Premium</span>
+          <span style="font-weight: 600; background: linear-gradient(90deg, #8B72FF, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pricing</span>
         </div>
       </nav>
 
@@ -291,19 +300,13 @@ window.renderSidebar = function(itemActif) {
           <div class="sidebar-user-card" style="margin: 0;">
             <div class="sidebar-user-avatar"
                  style="background:${user.couleurAvatar}; width: 36px; height: 36px;">
-              ${user.initiales}
+              ${(user.prenom || '')[0]}${(user.nom || '')[0]}
             </div>
             <div>
               <div class="sidebar-user-name" style="font-weight: 600; color: #FFF;">${user.prenom} ${user.nom}</div>
               <div class="sidebar-user-role" style="font-size: 12px; color: rgba(255,255,255,0.6);">${user.roleLabel}</div>
             </div>
           </div>
-          
-          <!-- Cloche de notification -->
-          <button id="btn-notifications" style="background:transparent; border:none; cursor:pointer; font-size:20px; position:relative; padding:4px;" title="Notifications">
-            🔔
-            <span id="notif-badge" style="position:absolute; top:0; right:0; background:#EF4444; color:white; font-size:10px; padding:2px 5px; border-radius:10px; display:none; font-weight:700;">1</span>
-          </button>
         </div>
 
         <button class="sidebar-switch-btn" id="btn-switch-profil" style="background: transparent; color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 4px; border: none; cursor: pointer;">
@@ -328,14 +331,14 @@ window.renderSidebar = function(itemActif) {
       ` : ''}
       <div class="mobile-bottom-item ${itemActif === 'pricing' ? 'active' : ''}" data-nav="pricing">
         <div class="mobile-bottom-icon">✨</div>
-        <span style="font-weight: 600; background: linear-gradient(90deg, #8B72FF, #000); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Premium</span>
+        <span style="font-weight: 600; background: linear-gradient(90deg, #8B72FF, #000); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pricing</span>
       </div>
       <div class="mobile-bottom-item" id="btn-mobile-notifs" data-action="notifs">
         <div class="mobile-bottom-icon" style="position:relative;">
-          🔔
+          📥
           ${(window.AppState.notifications || []).filter(n => !n.read).length > 0 ? `<span class="mobile-notif-badge"></span>` : ''}
         </div>
-        <span>Notifs</span>
+        <span>Réception</span>
       </div>
     </nav>
   `;

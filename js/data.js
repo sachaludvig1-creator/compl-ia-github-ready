@@ -232,14 +232,18 @@ const STATUT_LABELS = {
    NAVIGATION LATÉRALE (items du menu)
    ---------------------------------------- */
 const NAV_MARKETING = [
-  { id: 'dashboard',  icone: '▦',  label: 'Tableau de bord' },
-  { id: 'nouvelle',   icone: '＋',  label: 'Nouvelle validation' },
-  { id: 'regles',     icone: '📘', label: 'Règles internes' },
+  { id: 'boite_reception', label: 'Boîte de réception', icone: '📥' },
+  { id: 'dashboard', label: 'Tableau de bord', icone: '📊' },
+  { id: 'nouvelle', label: 'Nouvelle pré-validation', icone: '✍️' },
+  { id: 'historique', label: 'Historique', icone: '🕒' },
+  { id: 'regles', label: 'Règles marque', icone: '📘' },
 ];
 
 const NAV_JURIDIQUE = [
-  { id: 'dashboard',  icone: '▦',  label: 'File de validation' },
-  { id: 'regles',     icone: '📘', label: 'Règles internes' },
+  { id: 'boite_reception', label: 'Boîte de réception', icone: '📥' },
+  { id: 'dashboard', label: 'Contenus à valider', icone: '⚖️' },
+  { id: 'historique', label: 'Archives des audits', icone: '📂' },
+  { id: 'regles', label: 'Gérer les règles', icone: '⚙️' },
 ];
 
 /* ----------------------------------------
