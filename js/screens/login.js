@@ -120,7 +120,10 @@ window.LoginScreen = {
       <div class="onboarding-container" id="ob-container">
         ${this._renderHeader()}
         ${this._renderBody()}
-        <div class="footer-note">🔒 Vos données sont hébergées en Europe et ne sont jamais partagées avec des tiers.</div>
+        <div class="footer-note">
+          🔒 Vos données sont hébergées en Europe et ne sont jamais partagées avec des tiers.<br>
+          <a href="#" onclick="alert('Politique de confidentialité : Conformément au RGPD, vous disposez d\'un droit d\'accès, de rectification et de suppression de vos données. Pour toute demande, contactez dpo@compl-ia.com'); return false;" style="color: #6B4EFF; text-decoration: none; font-weight: 500;">Politique de confidentialité & Contact Données</a>
+        </div>
       </div>
     `;
   },

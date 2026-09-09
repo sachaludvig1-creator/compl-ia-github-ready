@@ -338,6 +338,11 @@ window.ResultsScreen = {
         </div>
 
       </div>
+
+      <!-- Disclaimer AI Act -->
+      <div style="margin-top: 32px; padding: 16px; background: #F9FAFB; border-radius: 8px; border: 1px solid #E5E7EB; text-align: center; font-size: 12px; color: #6B7280; line-height: 1.5;">
+        ⚠️ <strong>Note de transparence :</strong> Ces résultats sont générés par un modèle d'Intelligence Artificielle à titre indicatif. Ils visent à accélérer la pré-validation mais ne remplacent en aucun cas la validation finale par un juriste qualifié.
+      </div>
     `;
   },
 
@@ -1058,7 +1063,8 @@ Texte : ${newText}`;
         analyse:            window.AppState.analysisResult || {},
         score_v1:           formData.score_v1 ?? calcScore,
         score_v2:           formData.score_v2,
-        version:            1
+        version:            1,
+        expiresAt:          new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
       };
 
       await window.FirebaseService.createSubmission(nouvelleSoumission);

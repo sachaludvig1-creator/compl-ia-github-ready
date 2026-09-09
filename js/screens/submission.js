@@ -173,6 +173,11 @@ window.SubmissionScreen = {
                         placeholder="Collez ici votre caption Instagram, votre claim produit ou votre description e-commerce…"
                         rows="7"></textarea>
                       <div class="char-counter"><span id="char-count">0</span> caractère(s)</div>
+                      <!-- Clause d'anonymisation RGPD -->
+                      <div style="margin-top: 8px; font-size: 11px; color: #6B7280; display: flex; gap: 6px; align-items: flex-start; background: #F9FAFB; padding: 8px; border-radius: 6px; border: 1px solid #E5E7EB;">
+                        <span style="font-size: 14px; line-height: 1;">🔒</span>
+                        <span><strong>Conformité RGPD :</strong> Veuillez ne soumettre aucune donnée à caractère personnel (noms, informations de santé, etc.). Limitez-vous au copy marketing.</span>
+                      </div>
                     </div>
 
                     <!-- Zone de drag & drop -->
