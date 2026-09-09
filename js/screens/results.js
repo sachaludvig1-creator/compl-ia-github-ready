@@ -132,15 +132,31 @@ window.ResultsScreen = {
     /* Rétrocompatibilité momentanée si on ouvre les anciens fakes data.js */
     const problemes = analyse.problemes || analyse.points || [];
     
-    const nbEleves  = problemes.filter(p => p.severite === 'Élevé' || p.niveau === 'eleve').length;
-    const nbMoyens  = problemes.filter(p => p.severite === 'Modéré' || p.niveau === 'moyen').length;
+    const nbEleves  = problemes.filter(p => p.severite === 'Élevé' || p.niveau === 'eleve' || p.severite === 'high').length;
+    const nbMoyens  = problemes.filter(p => p.severite === 'Modéré' || p.niveau === 'moyen' || p.severite === 'medium').length;
     
-    const score     = analyse.score ?? analyse.scoreConformite ?? 100;
+    /* Logique à Couperet */
+    const th = window.AppConfig.scoreThresholds;
+    let baseScore = 100 - (th.HIGH_MAX * nbEleves) - (15 * nbMoyens);
+    baseScore = Math.max(0, Math.min(100, baseScore)); // clamp 0-100
 
-    /* Nouveau spectre coloriel du score : 0-40 rouge / 41-70 orange / 71-100 vert */
-    const scoreColor = score <= 40 ? 'var(--color-risk-high)'
-                     : score <= 70 ? 'var(--color-risk-medium)'
-                     : 'var(--color-suggestion)';
+    let score, scoreColor, scoreStatutTxt;
+    if (nbEleves > 0) {
+      score = Math.min(baseScore, th.HIGH_MAX); // plafond
+      scoreColor = 'var(--color-risk-high)';
+      scoreStatutTxt = 'Non publiable en l\'état';
+    } else if (nbMoyens > 0) {
+      score = Math.max(th.MEDIUM_MIN, Math.min(th.MEDIUM_MAX, baseScore)); // clamp 50-84
+      scoreColor = 'var(--color-risk-medium)';
+      scoreStatutTxt = 'Conforme avec réserve';
+    } else {
+      score = Math.max(th.OK_MIN, Math.min(100, baseScore)); // clamp 85-100
+      scoreColor = 'var(--color-suggestion)';
+      scoreStatutTxt = 'Conforme';
+    }
+
+    /* On écrase le score retourné par l'IA avec notre calcul déterministe */
+    analyse.score = score;
     
     const pointsPositifs = analyse.points_positifs || [];
     const tempsEconomise = analyse.temps_economise || (analyse.tempsAnalyse ? 'Env. 0.5 jour' : 'N/A');
@@ -172,7 +188,7 @@ window.ResultsScreen = {
                    <div style="height: 100%; width: ${score}%; background: ${scoreColor}; border-radius: 4px;"></div>
                 </div>
                 <div class="results-score-desc" style="margin-top: 12px;">Score de conformité réglementaire</div>
-                <div style="font-size: 10px; color: var(--color-text-muted); margin-top: 4px; text-align: center; max-width: 120px; line-height: 1.3;">${score <= 40 ? 'Risque Élevé' : score <= 70 ? 'Conforme avec réserve' : 'Conforme'}</div>
+                <div style="font-size: 10px; color: var(--color-text-muted); margin-top: 4px; text-align: center; max-width: 120px; line-height: 1.3; font-weight: 600;">${scoreStatutTxt}</div>
               </div>
               <div class="results-summary-right">
                 <div class="results-risk-chips">
@@ -676,7 +692,7 @@ Texte : ${newText}`;
         if (!formData.estDemo && window.AppState.submissions) {
           const s = window.AppState.submissions.find(s => s.id === formData.submissionId);
           if (s) {
-            const risqueTxt = formData.score_v2 <= 40 ? 'Élevé' : formData.score_v2 <= 70 ? 'Modéré' : 'Faible';
+            const risqueTxt = formData.score_v2 <= window.AppConfig.scoreThresholds.HIGH_MAX ? 'Élevé' : formData.score_v2 <= window.AppConfig.scoreThresholds.MEDIUM_MAX ? 'Modéré' : 'Faible';
             Object.assign(s, {
               texte: newText,
               analyse: reponseIA,
@@ -734,7 +750,7 @@ Texte : ${newText}`;
         if (!formData.estDemo && window.AppState.submissions) {
           const s = window.AppState.submissions.find(s => s.id === formData.submissionId);
           if (s) {
-            const risqueTxt = formData.score_v2 <= 40 ? 'Élevé' : formData.score_v2 <= 70 ? 'Modéré' : 'Faible';
+            const risqueTxt = formData.score_v2 <= window.AppConfig.scoreThresholds.HIGH_MAX ? 'Élevé' : formData.score_v2 <= window.AppConfig.scoreThresholds.MEDIUM_MAX ? 'Modéré' : 'Faible';
             Object.assign(s, {
               texte: newText,
               analyse: fallbackV2,
@@ -1026,7 +1042,7 @@ Texte : ${newText}`;
       const version = (sub?.version || 1) + 1;
       
       const calcScore = formData.score_v2 ?? window.AppState.analysisResult?.score ?? window.AppState.analysisResult?.scoreConformite ?? 100;
-      const calcRisque = calcScore <= 40 ? 'Élevé' : calcScore <= 70 ? 'Modéré' : 'Faible';
+      const calcRisque = calcScore <= window.AppConfig.scoreThresholds.HIGH_MAX ? 'Élevé' : calcScore <= window.AppConfig.scoreThresholds.MEDIUM_MAX ? 'Modéré' : 'Faible';
 
       await window.FirebaseService.updateSubmissionStatus(formData.submissionId, {
         texte: texteEdite,
@@ -1042,7 +1058,7 @@ Texte : ${newText}`;
     } else {
       /* Mode création : nouvelle soumission */
       const calcScore = formData.score_v2 ?? window.AppState.analysisResult?.score ?? window.AppState.analysisResult?.scoreConformite ?? 100;
-      const calcRisque = calcScore <= 40 ? 'Élevé' : calcScore <= 70 ? 'Modéré' : 'Faible';
+      const calcRisque = calcScore <= window.AppConfig.scoreThresholds.HIGH_MAX ? 'Élevé' : calcScore <= window.AppConfig.scoreThresholds.MEDIUM_MAX ? 'Modéré' : 'Faible';
       
       const nouvelleSoumission = {
         titre:              formData.estDemo

@@ -210,8 +210,8 @@ window.DashboardScreen = {
     const currentScore = sub.score_v2 ?? sub.score_v1 ?? sub.analyse?.score ?? sub.analyse?.scoreConformite ?? 100;
     
     let scoreColor = 'var(--color-suggestion)';
-    if (currentScore <= 40) scoreColor = 'var(--color-risk-high)';
-    else if (currentScore <= 70) scoreColor = 'var(--color-risk-medium)';
+    if (currentScore <= window.AppConfig.scoreThresholds.HIGH_MAX) scoreColor = 'var(--color-risk-high)';
+    else if (currentScore <= window.AppConfig.scoreThresholds.MEDIUM_MAX) scoreColor = 'var(--color-risk-medium)';
 
     /* Formater une date YYYY-MM-DD en string FR court */
     const formatDateStr = (dateStr) => {
@@ -252,8 +252,8 @@ window.DashboardScreen = {
           ${deadlineDateStr ? `<span style="color:#D97706; font-weight:600; font-size:12px; background:#FEF3C7; padding:4px 8px; border-radius:4px;">⏱ ${deadlineDateStr}</span>` : '<span style="color:#9CA3AF; font-size:12px;">Non précisé</span>'}
         </td>
         <td data-label="Audit IA">
-           <span style="display:inline-block; padding:4px 12px; border-radius:100px; background:${currentScore <= 40 ? '#FEE2E2' : currentScore <= 70 ? '#FEF3C7' : '#D1FAE5'}; color:${currentScore <= 40 ? '#991B1B' : currentScore <= 70 ? '#92400E' : '#065F46'}; font-weight:600; font-size:11px;">
-             ${sub.version > 1 ? `V${sub.version} : ` : ''}${currentScore <= 40 ? 'Risque Élevé' : currentScore <= 70 ? 'Conforme avec réserve' : 'Conforme'}
+           <span style="display:inline-block; padding:4px 12px; border-radius:100px; background:${currentScore <= window.AppConfig.scoreThresholds.HIGH_MAX ? '#FEE2E2' : currentScore <= window.AppConfig.scoreThresholds.MEDIUM_MAX ? '#FEF3C7' : '#D1FAE5'}; color:${currentScore <= window.AppConfig.scoreThresholds.HIGH_MAX ? '#991B1B' : currentScore <= window.AppConfig.scoreThresholds.MEDIUM_MAX ? '#92400E' : '#065F46'}; font-weight:600; font-size:11px;">
+             ${sub.version > 1 ? `V${sub.version} : ` : ''}${currentScore <= window.AppConfig.scoreThresholds.HIGH_MAX ? 'Non publiable en l\'état' : currentScore <= window.AppConfig.scoreThresholds.MEDIUM_MAX ? 'Conforme avec réserve' : 'Conforme'}
            </span>
         </td>
         <td data-label="Statut">

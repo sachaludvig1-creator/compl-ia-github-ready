@@ -8,6 +8,18 @@
 
 
 /* ----------------------------------------
+   CONFIGURATION GLOBALE DE L'APPLICATION
+   ---------------------------------------- */
+window.AppConfig = {
+  scoreThresholds: {
+    HIGH_MAX: 40,
+    MEDIUM_MIN: 50,
+    MEDIUM_MAX: 84,
+    OK_MIN: 85
+  }
+};
+
+/* ----------------------------------------
    ÉTAT GLOBAL DE L'APPLICATION
    Partagé entre tous les écrans via window.AppState
    ---------------------------------------- */
