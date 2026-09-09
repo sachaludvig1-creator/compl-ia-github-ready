@@ -72,7 +72,7 @@ window.ResultsScreen = {
                 <span class="breadcrumb-active">Analyse réglementaire IA</span>
               </div>
               <h1>Analyse réglementaire IA</h1>
-              <p>Vérification CE 1223/2009 · ARPP Beauté-Hygiène · DGCCRF</p>
+              <p>${window.AppState.typeProduit === 'complement' ? 'Vérification CE 1924/2006 · CE 432/2012 · DGCCRF' : 'Vérification CE 1223/2009 · ARPP Beauté-Hygiène · DGCCRF'}</p>
             </div>
           </div>
 
@@ -110,7 +110,7 @@ window.ResultsScreen = {
           </div>
           <div class="loader-step" id="step-3">
             <div class="loader-step-dot"></div>
-            <span>Consultation CE 1223/2009, ARPP, DGCCRF</span>
+            <span>${window.AppState.typeProduit === 'complement' ? 'Consultation CE 1924/2006, CE 432/2012, DGCCRF' : 'Consultation CE 1223/2009, ARPP, DGCCRF'}</span>
           </div>
           <div class="loader-step" id="step-4">
             <div class="loader-step-dot"></div>
@@ -198,7 +198,7 @@ window.ResultsScreen = {
                 </div>
                 <div class="results-refs">
                   <div class="results-ref-item">⏳ Temps économisé : <strong>${tempsEconomise}</strong></div>
-                  <div class="results-ref-item">📚 ${(analyse.referentielsConsultes || ['CE 1223/2009', 'ARPP', 'DGCCRF']).join(' · ')}</div>
+                  <div class="results-ref-item">📚 ${(analyse.referentielsConsultes || (window.AppState.typeProduit === 'complement' ? ['CE 1924/2006', 'CE 432/2012', 'DGCCRF'] : ['CE 1223/2009', 'ARPP', 'DGCCRF'])).join(' · ')}</div>
                   <div class="results-ref-item">🎯 Analyse basée sur le référentiel Compl-IA v1.0</div>
                 </div>
               </div>
