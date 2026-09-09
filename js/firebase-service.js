@@ -18,7 +18,7 @@ window.FirebaseService = {
     try {
       const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js");
       const { 
-        getFirestore, collection, addDoc, getDocs, getDoc, updateDoc, doc, query, where, orderBy, setDoc 
+        getFirestore, collection, addDoc, getDocs, getDoc, updateDoc, doc, query, where, orderBy, setDoc, Timestamp 
       } = await import("https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js");
       const { 
         getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut
@@ -37,7 +37,7 @@ window.FirebaseService = {
       const app = initializeApp(firebaseConfig);
       this.db = getFirestore(app);
       this.auth = getAuth(app);
-      this._ops = { collection, addDoc, getDocs, getDoc, updateDoc, doc, query, where, orderBy, setDoc };
+      this._ops = { collection, addDoc, getDocs, getDoc, updateDoc, doc, query, where, orderBy, setDoc, Timestamp };
       this._authOps = { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut };
       
       this.isInitialized = true;
@@ -195,10 +195,14 @@ window.FirebaseService = {
       return simulatedObj;
     }
 
-    const { collection, addDoc, doc, setDoc } = this._ops;
+    const { collection, addDoc, doc, setDoc, Timestamp } = this._ops;
     try {
       /* Le document placeholder donné est BMsD3l2aWPAvx99rNwBE, supprimons ce cas car on veut un auto-id */
       data.timestamp = Date.now();
+      if (!data.expireAt) {
+        // Durée de conservation fixée à 6 mois (TTL Firestore)
+        data.expireAt = Timestamp.fromDate(new Date(Date.now() + 6 * 30 * 24 * 60 * 60 * 1000));
+      }
       const docRef = await addDoc(collection(this.db, "submissions"), data);
       return { ...data, id: docRef.id };
     } catch (e) {

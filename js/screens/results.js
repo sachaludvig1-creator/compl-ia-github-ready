@@ -1063,8 +1063,7 @@ Texte : ${newText}`;
         analyse:            window.AppState.analysisResult || {},
         score_v1:           formData.score_v1 ?? calcScore,
         score_v2:           formData.score_v2,
-        version:            1,
-        expiresAt:          new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        version:            1
       };
 
       await window.FirebaseService.createSubmission(nouvelleSoumission);
