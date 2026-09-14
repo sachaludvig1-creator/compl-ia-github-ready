@@ -176,19 +176,24 @@ window.ResultsScreen = {
         <!-- ========== COLONNE GAUCHE : rapport ========== -->
         <div class="results-left">
 
+          <!-- Bandeau avertissement -->
+          <div style="background: #FFFBEB; border: 1px solid #FEF3C7; border-radius: 8px; padding: 12px 16px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; color: #B45309; font-size: 13px; font-weight: 500;">
+            <span style="font-size: 16px;">⚠️</span> Résultat indicatif généré par IA — validation juridique finale requise
+          </div>
+
           <!-- Synthèse du rapport -->
           <div class="results-summary card card-padding">
             <div class="results-summary-top">
               <div class="results-score-block">
-                <div class="results-score-circle" style="--score-color:${scoreColor}">
-                  <span class="results-score-value" style="color:${scoreColor};">${score}</span>
+                <div class="results-score-circle" style="--score-color:${scoreColor}; transform: scale(1.15); margin-bottom: 8px;">
+                  <span class="results-score-value" style="color:${scoreColor}; font-weight: 900; font-size: 48px;">${score}</span>
                   <span class="results-score-label">/ 100</span>
                 </div>
-                <div style="width: 100%; height: 6px; background: #E5E7EB; border-radius: 4px; overflow: hidden; margin-top: 12px; max-width: 120px;">
+                <div style="width: 100%; height: 6px; background: #E5E7EB; border-radius: 4px; overflow: hidden; margin-top: 12px; max-width: 140px;">
                    <div style="height: 100%; width: ${score}%; background: ${scoreColor}; border-radius: 4px;"></div>
                 </div>
                 <div class="results-score-desc" style="margin-top: 12px;">Score de conformité réglementaire</div>
-                <div style="font-size: 10px; color: var(--color-text-muted); margin-top: 4px; text-align: center; max-width: 120px; line-height: 1.3; font-weight: 600;">${scoreStatutTxt}</div>
+                <div style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: ${scoreColor}; margin-top: 8px; text-align: center; max-width: 160px; line-height: 1.3; font-weight: 800; background: ${scoreColor}15; padding: 6px 10px; border-radius: 6px;">${scoreStatutTxt}</div>
               </div>
               <div class="results-summary-right">
                 <div class="results-risk-chips">
@@ -200,6 +205,7 @@ window.ResultsScreen = {
                   <div class="results-ref-item">⏳ Temps économisé : <strong>${tempsEconomise}</strong></div>
                   <div class="results-ref-item">📚 ${(analyse.referentielsConsultes || (window.AppState.typeProduit === 'complement' ? ['CE 1924/2006', 'CE 432/2012', 'DGCCRF'] : ['CE 1223/2009', 'ARPP', 'DGCCRF'])).join(' · ')}</div>
                   <div class="results-ref-item">🎯 Analyse basée sur le référentiel Compl-IA v1.0</div>
+                  <div class="results-ref-item" style="color: #4F46E5; font-weight: 600;">📅 Référentiel à jour au Septembre 2026</div>
                 </div>
               </div>
             </div>
@@ -385,18 +391,18 @@ window.ResultsScreen = {
         <!-- En-tête du point de risque -->
         <div class="risk-card-header">
           <span class="risk-badge ${badgeClass}" title="${niveauTooltip}" style="cursor:help;">${niveauLabel}</span>
-          <div class="risk-fragment">"${fragment}"</div>
+          <div class="risk-fragment" style="background: #FEF2F2; border-left: 3px solid #EF4444; padding: 4px 8px; border-radius: 0 4px 4px 0; display: inline-block; font-weight: 500;">"${fragment}"</div>
         </div>
 
         <!-- Explication réglementaire -->
         <div class="risk-explanation">${point.explication}</div>
 
-        <!-- Référence réglementaire -->
-        <div class="risk-reference">
-          <div class="risk-reference-icon">📋</div>
+        <!-- Référence réglementaire très visible -->
+        <div class="risk-reference" style="background: #EEF2FF; border: 1px solid #C7D2FE; border-radius: 6px; padding: 10px 14px; margin-top: 16px; display: flex; align-items: flex-start; gap: 10px;">
+          <div class="risk-reference-icon" style="font-size: 16px; margin-top: 2px;">⚖️</div>
           <div>
-            <div class="risk-reference-main">${reference}</div>
-            ${point.referenceDetail ? `<div class="risk-reference-detail">${point.referenceDetail}</div>` : ''}
+            <div class="risk-reference-main" style="color: #4338CA; font-weight: 700; font-size: 13px;">${reference}</div>
+            ${point.referenceDetail ? `<div class="risk-reference-detail" style="color: #4F46E5; margin-top: 4px; font-size: 12px;">${point.referenceDetail}</div>` : ''}
           </div>
         </div>
 
