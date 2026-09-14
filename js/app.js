@@ -131,7 +131,58 @@ window.navigate = function(nomEcran, params = {}) {
       if (window.openNotificationsPanel) window.openNotificationsPanel();
     });
 
+    if (nomEcran === 'Submission') {
+      window.checkLegalDisclaimer();
+    }
   }, 120);
+};
+
+window.checkLegalDisclaimer = function() {
+  // Désactivé le localStorage pour la démo : s'affichera à chaque fois
+  // if (localStorage.getItem('complia_legal_accepted') === 'true') return;
+  
+  if (document.getElementById('legal-disclaimer-modal')) return;
+
+  const modalHtml = `
+    <div id="legal-disclaimer-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;">
+      <div style="background: white; border-radius: 12px; padding: 32px; max-width: 480px; width: 100%; text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+        <h2 style="margin-top: 0; color: #1e293b; font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 8px;">⚠️ Avertissement Légal</h2>
+        <p style="color: #475569; line-height: 1.5; font-size: 14px; margin-bottom: 24px;">
+          Compl-IA est un outil de pré-analyse. Il ne se substitue pas à la validation de votre service juridique/réglementaire, obligatoire avant publication. Compl-IA ne garantit pas la conformité et ne peut être tenu responsable des contenus publiés.
+        </p>
+        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; margin-bottom: 24px; font-size: 14px; color: #334155;">
+          <input type="checkbox" id="legal-disclaimer-checkbox" style="margin-top: 3px; width: 18px; height: 18px;">
+          <span>J'ai compris et j'accepte les conditions d'utilisation.</span>
+        </label>
+        <button id="legal-disclaimer-btn" disabled style="width: 100%; padding: 12px; background: #94a3b8; color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 15px; cursor: not-allowed; transition: all 0.2s;">
+          Continuer
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+  const checkbox = document.getElementById('legal-disclaimer-checkbox');
+  const btn = document.getElementById('legal-disclaimer-btn');
+
+  checkbox.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      btn.style.background = '#2563eb';
+      btn.style.cursor = 'pointer';
+      btn.disabled = false;
+    } else {
+      btn.style.background = '#94a3b8';
+      btn.style.cursor = 'not-allowed';
+      btn.disabled = true;
+    }
+  });
+
+  btn.addEventListener('click', () => {
+    if (!checkbox.checked) return;
+    localStorage.setItem('complia_legal_accepted', 'true');
+    document.getElementById('legal-disclaimer-modal').remove();
+  });
 };
 
 /* ----------------------------------------
