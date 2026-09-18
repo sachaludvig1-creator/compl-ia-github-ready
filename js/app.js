@@ -349,11 +349,6 @@ window.renderSidebar = function(itemActif) {
           </div>
         `).join('')}
 
-        <!-- Lien Pricing / Premium -->
-        <div class="sidebar-nav-item ${itemActif === 'pricing' ? 'active' : ''}" style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;" data-nav="pricing" role="button" tabindex="0">
-          <span class="sidebar-nav-icon" style="color: #8B72FF;">✨</span>
-          <span style="font-weight: 600; background: linear-gradient(90deg, #8B72FF, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pricing</span>
-        </div>
       </nav>
 
       <!-- Profil utilisateur (bas de sidebar) -->
@@ -392,10 +387,7 @@ window.renderSidebar = function(itemActif) {
         <span>Nouveau</span>
       </div>
       ` : ''}
-      <div class="mobile-bottom-item ${itemActif === 'pricing' ? 'active' : ''}" data-nav="pricing">
-        <div class="mobile-bottom-icon">✨</div>
-        <span style="font-weight: 600; background: linear-gradient(90deg, #8B72FF, #000); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pricing</span>
-      </div>
+
       <div class="mobile-bottom-item" id="btn-mobile-notifs" data-action="notifs">
         <div class="mobile-bottom-icon" style="position:relative;">
           📥
